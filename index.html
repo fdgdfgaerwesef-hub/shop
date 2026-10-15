@@ -54,7 +54,7 @@
     <!-- Announcement Ticker -->
     <div class="bg-red-600 text-white text-xs py-2 px-4 overflow-hidden relative shadow-md w-full">
         <div class="ticker-wrap">
-            <span class="ticker-move font-medium">🎉 សូមស្វាគមន៍មកកាន់ហាងលក់វីឌីអូរ និងមាតិកា VIP! ប្រើប្រាស់កូដ <b class="underline">VIP10</b> បញ្ចុះតម្លៃ ១០% ⚡️ រាល់ការបញ្ជាទិញត្រូវរង់ចាំ Admin ពិនិត្យវិក្កយបត្រជាមុនសិន! 🔥</span>
+            <span class="ticker-move font-medium">🎉 សូមស្វាគមន៍មកកាន់ហាងលក់វីឌីអូរ និងមាតិកា VIP! ប្រើប្រាស់កូដ <b class="underline">VIP10</b> បញ្ចុះតម្លៃ ១០% ⚡️ រាល់การបញ្ជាទិញត្រូវរង់ចាំ Admin ពិនិត្យវិក្កយបត្រជាមុនសិន! 🔥</span>
         </div>
     </div>
 
@@ -270,16 +270,11 @@
                 </div>
             </div>
 
-            <!-- Form សម្រាប់អតិថិជនបំពេញព័ត៌មាន និង Upload Slip -->
+            <!-- Form សម្រាប់អតិថិជនបំពេញព័ត៌មាន -->
             <div class="space-y-3 pt-1">
                 <div>
                     <label class="block text-[11px] text-zinc-300 mb-1">ឈ្មោះ និង Telegram Username របស់អ្នក៖</label>
                     <input type="text" id="customer-telegram" placeholder="ឧទាហរណ៍: @sann_dev ឬ ឈ្មោះអ្នក" class="w-full bg-black border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500">
-                </div>
-
-                <div>
-                    <label class="block text-[11px] text-zinc-300 mb-1">Upload រូបភាពវិក្កយបត្រ (Slip បង់ប្រាក់)៖</label>
-                    <input type="file" id="slip-file" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer bg-black border border-zinc-800 rounded-xl p-1">
                 </div>
             </div>
 
@@ -355,9 +350,7 @@
         const profileUserIdEl = document.getElementById('user-id-profile');
         if (profileUserIdEl) profileUserIdEl.innerText = userIdStr;
 
-        const BACKEND_PROXY_URL = 'https://your-backend-server.com/api/send-order';
-
-        // --- ផលិតផល និងប្រព័ន្ធស្តុកពិតប្រាកដ ---
+        // --- ផលិតផល និងប្រព័ន្ធស្តុកពិតប្រាកដពេញលេញគ្រប់ Category ---
         const defaultProductsData = {
             songs: [
                 {
@@ -1012,17 +1005,12 @@
             document.getElementById('modal-total-price').innerText = `សរុបត្រូវបង់៖ $${calculatedFinalTotal.toFixed(2)}`;
         }
 
+        // --- មុខងារផ្ញើទិន្នន័យកុម្ម៉ង់ត្រង់ទៅកាន់ Telegram Bot តាមរយៈ WebApp API ---
         function processCheckoutAndSendToTelegram() {
             const customerInfo = document.getElementById('customer-telegram').value.trim();
-            const slipInput = document.getElementById('slip-file');
 
             if (!customerInfo) {
                 alert('សូមបញ្ចូលឈ្មោះ ឬ Telegram Username របស់អ្នកជាមុនសិន!');
-                return;
-            }
-
-            if (!slipInput.files || !slipInput.files[0]) {
-                alert('សូម Upload រូបភាពវិក្កយបត្រ (Slip បង់ប្រាក់) ជាមុនសិន ដើម្បីផ្ញើជូន Admin ផ្ទៀងផ្ទាត់!');
                 return;
             }
 
@@ -1031,8 +1019,8 @@
                 return;
             }
 
-            let pendingItems = [];
             let verifiedSubtotal = 0;
+            let orderItemsSummary = [];
 
             cart.forEach(cartItem => {
                 const categoryList = products[cartItem.categoryKey] || [];
@@ -1040,13 +1028,9 @@
                 if (prod) {
                     const pkg = prod.packages.find(pk => pk.id === cartItem.packageId);
                     if (pkg) {
-                        verifiedSubtotal += pkg.price * cartItem.quantity;
-                        // រក្សាទុកព័ត៌មានទំនិញសម្រាប់ផ្ញើទៅ Admin ពិនិត្យ (មិនទាន់កាត់ស្តុក ឬផ្តល់ Link ឱ្យភ្លាមៗទេ)
-                        for (let i = 0; i < cartItem.quantity; i++) {
-                            if (pkg.links && pkg.links.length > 0) {
-                                pendingItems.push(`• ${cartItem.name}: [រង់ចាំ Admin អනුម័ត]`);
-                            }
-                        }
+                        let itemTotal = pkg.price * cartItem.quantity;
+                        verifiedSubtotal += itemTotal;
+                        orderItemsSummary.push(`${cartItem.name} (x${cartItem.quantity}) - $${itemTotal.toFixed(2)}`);
                     }
                 }
             });
@@ -1054,46 +1038,25 @@
             let verifiedDiscount = discountApplied ? verifiedSubtotal * 0.10 : 0;
             let verifiedFinalTotal = verifiedSubtotal - verifiedDiscount;
 
-            let orderItemsText = cart.map(i => `• ${i.name} (ចំនួន: ${i.quantity}) - $${(getAuthoritativePrice(i.categoryKey, i.itemId, i.packageId) * i.quantity).toFixed(2)}`).join('\n');
+            // រៀបចំអត្ថបទសម្រាប់ສົ່ງចូល Bot
+            let orderDataString = `👤 អតិថិជន: ${customerInfo}\n🆔 Telegram ID: ${userIdStr}\n\n📦 ទំនិញបានកុម្ម៉ង់៖\n` + 
+                                  orderItemsSummary.join('\n') + 
+                                  `\n\n💰 សរុបទឹកប្រាក់: $${verifiedFinalTotal.toFixed(2)}`;
 
-            // សារផ្ញើជូន Admin ថាមានការស្នើសុំទិញថ្មី (រង់ចាំការពិនិត្យ)
-            let messageText = `⏳ *មានការស្នើសុំទិញថ្មី (រង់ចាំ Admin ពិនិត្យ Slip)!* 🛍️\n\n`;
-            messageText += `👤 អតិថិជន: ${customerInfo}\n`;
-            messageText += `🆔 Telegram ID: ${userIdStr}\n\n`;
-            messageText += `📦 *ទំនិញរង់ចាំការផ្ទៀងផ្ទាត់៖*\n${orderItemsText}\n\n`;
-            messageText += `💰 *សរុបទឹកប្រាក់៖* $${verifiedFinalTotal.toFixed(2)}\n`;
-            messageText += `⚠️ *ស្ថានភាព៖* កំពុងរង់ចាំ Admin ពិនិត្យវិក្កយបត្រ!\n`;
-            messageText += `📅 កាលបរិច្ឆេទ: ${new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-
-            let formData = new FormData();
-            formData.append('customer_info', customerInfo);
-            formData.append('telegram_id', userIdStr);
-            formData.append('message', messageText);
-            formData.append('total_amount', verifiedFinalTotal);
-            formData.append('slip', slipInput.files[0]);
-
-            fetch(BACKEND_PROXY_URL, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                finalizePendingOrder(verifiedFinalTotal);
-            })
-            .catch(error => {
-                console.error('Proxy Error:', error);
-                // ករណីតេស្តដោយគ្មាន Backend ផ្ទាល់
-                finalizePendingOrder(verifiedFinalTotal);
-            });
+            if (window.Telegram && window.Telegram.WebApp) {
+                // បញ្ជូនទិន្នន័យត្រង់ទៅ Telegram Bot និងបិទ Mini App
+                window.Telegram.WebApp.sendData(orderDataString);
+            } else {
+                alert('សូមបើក Website នេះតាមរយៈ Telegram Bot (Mini App) ដើម្បីបញ្ជូនទិន្នន័យ!');
+            }
         }
 
         function finalizePendingOrder(finalTotal) {
-            // រក្សាទុកក្នុងប្រវត្តិថា "កំពុងរង់ចាំការផ្ទៀងផ្ទាត់ពី Admin"
             const pendingOrder = {
                 date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 items: [...cart],
                 total: finalTotal,
-                status: '⏳ កំពុងរង់ចាំ Admin ពិនិត្យផ្ទៀងផ្ទាត់ប្រាក់...',
+                status: '⏳ បានបញ្ជូនកុម្ម៉ង់ទៅ Bot រួចរាល់ (សូមផ្ញើ Slip ក្នុង Chat Bot)',
                 downloadLinks: []
             };
 
@@ -1107,7 +1070,6 @@
             closeCheckoutModal();
             renderProducts(document.getElementById('search-input')?.value || '');
 
-            alert('⏳ វិក្កយបត្រ និងការបញ្ជាទិញរបស់អ្នកត្រូវបានបញ្ជូនជូន Admin រួចរាល់! 🔗 Link ទាញយកនឹងបង្ហាញក្នុង Profile របស់អ្នក បន្ទាប់ពី Admin បានពិនិត្យនិងអនុម័តរួច។');
             switchTab('profile');
             renderOrderHistory();
         }
@@ -1146,7 +1108,7 @@
                         ${statusHtml}
                         <div class="pt-1 border-t border-zinc-800">
                             <p class="text-[10px] text-zinc-400 font-bold">លីងទាញយករបស់អ្នក៖</p>
-                            ${linksHtml || '<span class="text-[10px] text-zinc-500">គ្មានលីងបង្ហាញ (រង់ចាំការផ្ទៀងផ្ទាត់)</span>'}
+                            ${linksHtml || '<span class="text-[10px] text-zinc-500">គ្មានលីងបង្ហាញ (រង់ចាំការផ្ទៀងផ្ទាត់ពី Admin)</span>'}
                         </div>
                     </div>
                 `;
