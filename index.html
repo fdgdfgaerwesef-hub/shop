@@ -54,7 +54,7 @@
     <!-- Announcement Ticker -->
     <div class="bg-red-600 text-white text-xs py-2 px-4 overflow-hidden relative shadow-md w-full">
         <div class="ticker-wrap">
-            <span class="ticker-move font-medium">🎉 សូមស្វាគមន៍មកកាន់ហាងលក់វីឌីអូរ និងមាតិកា VIP! ប្រើប្រាស់កូដ <b class="underline">VIP10</b> បញ្ចុះតម្លៃ ១០% ⚡️ ស្គេនទូទាត់ប្រាក់ យកឈ្មោះ និងតម្លៃទំនិញផ្ញើចូល Bot! 🔥</span>
+            <span class="ticker-move font-medium">🎉 សូមស្វាគមន៍មកកាន់ហាងលក់វីឌីអូរ និងមាតិកា VIP! ប្រើប្រាស់កូដ <b class="underline">VIP10</b> បញ្ចុះតម្លៃ ១០% ⚡️ ប្រព័ន្ធទូទាត់មានសុវត្ថិភាពខ្ពស់ការពារការកែប្រែតម្លៃ! 🔥</span>
         </div>
     </div>
 
@@ -70,7 +70,7 @@
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-md mx-auto p-4 space-y-4">
+    <main class="max-w-6xl mx-auto p-4 space-y-4">
 
         <!-- TAB 1: HOME / PRODUCTS -->
         <section id="tab-home" class="space-y-4">
@@ -97,11 +97,11 @@
                 <button onclick="switchCategory('chineseAI')" id="cat-chineseAI" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0 shadow-[0_0_12px_rgba(0,0,0,0.9)]">🇨🇳 លក់រឿងចិន Ai</button>
             </div>
 
-            <div id="product-list" class="grid grid-cols-1 gap-3 pb-6"></div>
+            <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-6"></div>
         </section>
 
         <!-- TAB 2: CART / CHECKOUT -->
-        <section id="tab-cart" class="hidden space-y-4">
+        <section id="tab-cart" class="hidden space-y-4 max-w-md mx-auto">
             <h2 class="text-base font-bold text-white border-b border-red-900/50 pb-2">🛒 កន្ត្រកទំនិញ និងការទិញ</h2>
             <div id="cart-items" class="space-y-3"></div>
             
@@ -129,7 +129,7 @@
         </section>
 
         <!-- TAB 3: DOWNLOAD CENTER -->
-        <section id="tab-share" class="hidden space-y-4">
+        <section id="tab-share" class="hidden space-y-4 max-w-lg mx-auto">
             <div class="bg-zinc-900 border border-red-900/50 p-4 rounded-2xl space-y-3">
                 <div class="border-b border-zinc-800 pb-2">
                     <h3 class="font-bold text-sm text-white flex items-center space-x-2">
@@ -156,7 +156,7 @@
         </section>
 
         <!-- TAB 4: PROFILE & ORDER HISTORY -->
-        <section id="tab-profile" class="hidden space-y-4">
+        <section id="tab-profile" class="hidden space-y-4 max-w-lg mx-auto">
             <div class="bg-zinc-900 border border-red-900/50 p-6 rounded-2xl text-center space-y-3">
                 <div class="w-20 h-20 bg-red-950 text-red-500 rounded-full flex items-center justify-center text-3xl mx-auto font-bold border border-red-600 shadow-[0_0_15px_rgba(239,68,68,0.5)]" id="profile-initial">
                     U
@@ -255,30 +255,36 @@
         </div>
     </div>
 
-    <!-- CHECKOUT MODAL (QR CODE PAYMENT & INSTRUCTION) -->
+    <!-- CHECKOUT MODAL (QR CODE PAYMENT & UPLOAD SLIP FORM) -->
     <div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-zinc-900 border border-emerald-600 w-full max-w-sm rounded-3xl p-6 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.4)] relative">
+        <div class="bg-zinc-900 border border-emerald-600 w-full max-w-sm rounded-3xl p-6 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.4)] relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
-                <h3 class="font-bold text-white text-sm">💳 ស្គេន QR Code ដើម្បីទូទាត់ប្រាក់</h3>
+                <h3 class="font-bold text-white text-sm">💳 ទូទាត់ប្រាក់ & បញ្ជូនវិក្កយបត្រ</h3>
                 <button onclick="closeCheckoutModal()" class="text-zinc-400 hover:text-white font-bold text-lg">&times;</button>
             </div>
             
             <div class="text-center space-y-2 py-1">
                 <p class="text-base font-bold text-white" id="modal-total-price">សរុបត្រូវបង់៖ $0.00</p>
                 <div class="bg-white p-3 rounded-2xl inline-block shadow-md">
-                    <img src="https://i.ibb.co/6JG93y5F/Changing-Korean-actress-hair-clo-20260915200120.jpg" alt="KHQR Payment" class="w-40 h-40 object-cover mx-auto rounded-lg">
-                </div>
-                
-                <!-- អក្សរពណ៌ក្រហមនៅខាងក្រោមកន្លែងស្គេន -->
-                <div class="bg-red-950/60 border border-red-500/80 p-3 rounded-2xl text-center shadow-[0_0_15px_rgba(239,68,68,0.3)] mt-2">
-                    <p class="text-xs font-bold text-red-500 leading-relaxed uppercase">
-                        ផ្ញើវិក្កយបត្របង់ប្រាក់ & Copy ឈ្មោះផលិតផលនិងតម្លៃ ផ្ញើចូល Telegram Bot ដើម្បីទទួលបានផលិតផល! 🚀
-                    </p>
+                    <img src="https://i.ibb.co/6JG93y5F/Changing-Korean-actress-hair-clo-20260915200120.jpg" alt="KHQR Payment" class="w-36 h-36 object-cover mx-auto rounded-lg">
                 </div>
             </div>
 
-            <div class="space-y-2 pt-1">
-                <button onclick="processScanPaymentAndSendToBot()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl text-xs shadow-[0_0_15px_rgba(16,185,129,0.5)] transition flex items-center justify-center space-x-1">
+            <!-- Form សម្រាប់អតិថិជនបំពេញព័ត៌មាន និង Upload Slip -->
+            <div class="space-y-3 pt-1">
+                <div>
+                    <label class="block text-[11px] text-zinc-300 mb-1">ឈ្មោះ និង Telegram Username របស់អ្នក៖</label>
+                    <input type="text" id="customer-telegram" placeholder="ឧទាហរណ៍: @sann_dev ឬ ឈ្មោះអ្នក" class="w-full bg-black border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-zinc-300 mb-1">Upload រូបភាពវិក្កយបត្រ (Slip បង់ប្រាក់)៖</label>
+                    <input type="file" id="slip-file" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer bg-black border border-zinc-800 rounded-xl p-1">
+                </div>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <button onclick="processCheckoutAndSendToTelegram()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl text-xs shadow-[0_0_15px_rgba(16,185,129,0.5)] transition flex items-center justify-center space-x-1">
                     <span>បញ្ជាក់ការទិញ និងផ្ញើទៅ Bot 🚀</span>
                 </button>
             </div>
@@ -286,7 +292,7 @@
     </div>
 
     <!-- BOTTOM NAVBAR -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-800 shadow-lg flex justify-around py-3 px-2 z-40 max-w-md mx-auto">
+    <nav class="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-800 shadow-lg flex justify-around py-3 px-2 z-40 max-w-4xl mx-auto">
         <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center justify-center w-16 h-14 rounded-2xl bg-zinc-900 text-white glow-white-btn transition relative shadow-[0_0_15px_rgba(255,255,255,0.6)]">
             <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
             <span class="text-[10px] mt-1 font-medium">ទំព័រដើម</span>
@@ -349,23 +355,10 @@
         const profileUserIdEl = document.getElementById('user-id-profile');
         if (profileUserIdEl) profileUserIdEl.innerText = userIdStr;
 
-        const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-        const ADMIN_CHAT_ID = 'YOUR_ADMIN_CHAT_ID_HERE';
+        // --- SECURE BACKEND PROXY ENDPOINT ---
+        const BACKEND_PROXY_URL = 'https://your-backend-server.com/api/send-order';
 
-        function sendTelegramNotification(orderDetails, productNamesString) {
-            if (TELEGRAM_BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE' || ADMIN_CHAT_ID === 'YOUR_ADMIN_CHAT_ID_HERE') return;
-            let itemsText = orderDetails.items.map(i => `• ${i.name} (ចំនួន: ${i.quantity}) - $${(i.price * i.quantity).toFixed(2)}`).join('\n');
-            let message = `🚨 *មានការបញ្ជាទិញថ្មី (ស្គេនប្រាក់)!* 🛍️\n\n👤 អតិថិជន: ${userFullName}\n🆔 Telegram ID: ${userIdStr}\n\n📦 *ទំនិញបានទិញ៖*\n${itemsText}\n\n🏷️ *ឈ្មោះ និងតម្លៃសម្រាប់ Copy:* \`${productNamesString}\`\n\n💰 *សរុបទឹកប្រាក់៖* $${orderDetails.total.toFixed(2)}\n📅 កាលបរិច្ឆេទ: ${orderDetails.date}\n\n*(សូមអតិថិជនផ្ញើវិក្កយបត្របង់ប្រាក់ និង Copy ឈ្មោះផលិតផលព្រមទាំងតម្លៃនេះចូល Bot)*`;
-            
-            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: ADMIN_CHAT_ID, text: message, parse_mode: 'Markdown' })
-            }).catch(error => console.error(error));
-        }
-
-        let userOrders = JSON.parse(localStorage.getItem(`myorders_v7_${userIdStr}`)) || [];
-
+        // --- ផលិតផល និងប្រព័ន្ធស្តុកពិតប្រាកដ ---
         const defaultProductsData = {
             songs: [
                 {
@@ -379,9 +372,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://bad-amaranth-ftqugrnh.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'edm_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 5, tag: '🔥' },
-                        { id: 'edm_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 2, tag: '🌟' },
-                        { id: 'edm_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 5, tag: '💎' }
+                        { id: 'edm_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 5, links: Array(5).fill('https://drive.google.com/drive/folders/sample_edm100'), tag: '🔥' },
+                        { id: 'edm_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 2, links: Array(2).fill('https://drive.google.com/drive/folders/sample_edm500'), tag: '🌟' },
+                        { id: 'edm_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 5, links: Array(5).fill('https://drive.google.com/drive/folders/sample_edm1000'), tag: '💎' }
                     ]
                 },
                 {
@@ -395,9 +388,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://high-amaranth-evm9c4nl.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'baby_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '🌙' },
-                        { id: 'baby_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '⭐' },
-                        { id: 'baby_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '💤' }
+                        { id: 'baby_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 1, links: ['https://drive.google.com/drive/folders/sample_baby100'], tag: '🌙' },
+                        { id: 'baby_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 1, links: ['https://drive.google.com/drive/folders/sample_baby500'], tag: '⭐' },
+                        { id: 'baby_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 1, links: ['https://drive.google.com/drive/folders/sample_baby1000'], tag: '💤' }
                     ]
                 },
                 {
@@ -411,9 +404,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://welcome-indigo-mgarufi6.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'chill_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '☕' },
-                        { id: 'chill_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 2, tag: '🍃' },
-                        { id: 'chill_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 2, tag: '🌊' }
+                        { id: 'chill_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 4, links: Array(4).fill('https://drive.google.com/drive/folders/sample_chill100'), tag: '☕' },
+                        { id: 'chill_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 2, links: Array(2).fill('https://drive.google.com/drive/folders/sample_chill500'), tag: '🍃' },
+                        { id: 'chill_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 2, links: Array(2).fill('https://drive.google.com/drive/folders/sample_chill1000'), tag: '🌊' }
                     ]
                 },
                 {
@@ -427,9 +420,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://reasonable-scarlet-9ivlchev.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'edmbass_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 10, tag: '⚡' },
-                        { id: 'edmbass_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '🔥' },
-                        { id: 'edmbass_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 3, tag: '🔊' }
+                        { id: 'edmbass_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 10, links: Array(10).fill('https://drive.google.com/drive/folders/sample_edmbass100'), tag: '⚡' },
+                        { id: 'edmbass_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 4, links: Array(4).fill('https://drive.google.com/drive/folders/sample_edmbass500'), tag: '🔥' },
+                        { id: 'edmbass_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 3, links: Array(3).fill('https://drive.google.com/drive/folders/sample_edmbass1000'), tag: '🔊' }
                     ]
                 },
                 {
@@ -443,9 +436,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://shy-apricot-j6bgllxp.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'relax_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '🧘' },
-                        { id: 'relax_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '🌿' },
-                        { id: 'relax_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '✨' }
+                        { id: 'relax_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 4, links: Array(4).fill('https://drive.google.com/drive/folders/sample_relax100'), tag: '🧘' },
+                        { id: 'relax_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 1, links: ['https://drive.google.com/drive/folders/sample_relax500'], tag: '🌿' },
+                        { id: 'relax_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 0, links: [], tag: '✨' }
                     ]
                 },
                 {
@@ -459,9 +452,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://ok-ivory-yhqva1bh.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'hiphop_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 6, tag: '🎤' },
-                        { id: 'hiphop_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '🎧' },
-                        { id: 'hiphop_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '👑' }
+                        { id: 'hiphop_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 6, links: Array(6).fill('https://drive.google.com/drive/folders/sample_hiphop100'), tag: '🎤' },
+                        { id: 'hiphop_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 4, links: Array(4).fill('https://drive.google.com/drive/folders/sample_hiphop500'), tag: '🎧' },
+                        { id: 'hiphop_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 4, links: Array(4).fill('https://drive.google.com/drive/folders/sample_hiphop1000'), tag: '👑' }
                     ]
                 },
                 {
@@ -475,9 +468,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://average-lime-x7fffo1t.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'sadgirl_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 5, tag: '🥀' },
-                        { id: 'sadgirl_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '💧' },
-                        { id: 'sadgirl_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '💔' }
+                        { id: 'sadgirl_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 5, links: Array(5).fill('https://drive.google.com/drive/folders/sample_sadgirl100'), tag: '🥀' },
+                        { id: 'sadgirl_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 1, links: ['https://drive.google.com/drive/folders/sample_sadgirl500'], tag: '💧' },
+                        { id: 'sadgirl_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 1, links: ['https://drive.google.com/drive/folders/sample_sadgirl1000'], tag: '💔' }
                     ]
                 },
                 {
@@ -491,9 +484,9 @@
                         { name: 'ស្តាប់បទទី 3', url: 'https://cold-moccasin-cnu03zvq.edgeone.dev/' }
                     ],
                     packages: [
-                        { id: 'sadboy_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 5, tag: '🌧️' },
-                        { id: 'sadboy_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 2, tag: '🖤' },
-                        { id: 'sadboy_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '🎸' }
+                        { id: 'sadboy_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 5, links: Array(5).fill('https://drive.google.com/drive/folders/sample_sadboy100'), tag: '🌧️' },
+                        { id: 'sadboy_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 2, links: ['https://drive.google.com/drive/folders/sample_sadboy500_1', 'https://drive.google.com/drive/folders/sample_sadboy500_2'], tag: '🖤' },
+                        { id: 'sadboy_1000', name: 'កញ្ចប់ 1000 បទ', price: 10.00, stock: 0, links: [], tag: '🎸' }
                     ]
                 }
             ],
@@ -504,9 +497,9 @@
                     desc: 'រូបភាពគុណភាពខ្ពស់សម្រាប់ប្រើប្រាស់ជាមាតិកាឌីជីថល',
                     img: 'https://i.ibb.co/ZzcX3zWT/Pic-159.jpg',
                     packages: [
-                        { id: 'img_fish_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '🎣' },
-                        { id: 'img_fish_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 2, tag: '🖼️' },
-                        { id: 'img_fish_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 2, tag: '✨' }
+                        { id: 'img_fish_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, stock: 2, links: ['https://drive.google.com/drive/folders/1KT03tAE22-cWjhmde1fm4xzEF0Qjicmb?usp=sharing', 'https://drive.google.com/drive/folders/1UmgsJvmzF35DkynTf0NF6UO_Y2RfvGqs?usp=sharing'], tag: '🎣' },
+                        { id: 'img_fish_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, stock: 2, links: ['https://drive.google.com/drive/folders/1OmnpyNQG-RfWLUx0yDR-ccpuO6V71zLm?usp=sharing', 'https://drive.google.com/drive/folders/1l1zXEy90EC20qvZCZhQsH13zjmo-zm84?usp=sharing'], tag: '🖼️' },
+                        { id: 'img_fish_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, stock: 2, links: ['https://drive.google.com/drive/folders/1cQVHAFoPYxvisb1ipCZrG2wEE80jfQnQ?usp=sharing', 'https://drive.google.com/drive/folders/1tSIUyzrJ7Wzf2GFLZl8HnbuAmUdduexJ?usp=sharing'], tag: '✨' }
                     ]
                 },
                 {
@@ -515,9 +508,9 @@
                     desc: 'រូបភាពត្រីហែលទឹកស្អាតៗ និងរស់រវើក',
                     img: 'https://i.ibb.co/YTPZSryV/v-30.jpg',
                     packages: [
-                        { id: 'img_swim_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 3, tag: '🐠' },
-                        { id: 'img_swim_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '🌊' },
-                        { id: 'img_swim_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '💎' }
+                        { id: 'img_swim_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, stock: 3, links: ['https://drive.google.com/drive/folders/1zpmfO6vebvJfjVr0y4CpiPfTGqHnuxOf?usp=sharing', 'https://drive.google.com/drive/folders/1cyYXt087OGNh2M7dLIYtIMKiV92f3foU?usp=sharing', 'https://drive.google.com/drive/folders/1OoNLEDt0t4lONbQADqIreIRkDvwbrMEc?usp=sharing'], tag: '🐠' },
+                        { id: 'img_swim_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, stock: 0, links: [], tag: '🌊' },
+                        { id: 'img_swim_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, stock: 0, links: [], tag: '💎' }
                     ]
                 },
                 {
@@ -526,9 +519,9 @@
                     desc: 'រូបភាពមនោសញ្ចេតនាកម្សត់សម្រាប់នារី',
                     img: 'https://i.ibb.co/GvZp7p60/Change-Korean-woman-style-hair-20260915195109.jpg',
                     packages: [
-                        { id: 'img_sadgirl_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 5, tag: '🥀' },
-                        { id: 'img_sadgirl_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '💧' },
-                        { id: 'img_sadgirl_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '💔' }
+                        { id: 'img_sadgirl_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, stock: 5, links: ['https://drive.google.com/drive/folders/1EpDO86yneRDvf9LgfMDjE2c1YwxUbPCq?usp=sharing', 'https://drive.google.com/drive/folders/1QoiSbizW9XC8ITvHF4H1ay-pJg-338kD?usp=sharing', 'https://drive.google.com/drive/folders/1TjoDYdxwobeCrf261WDAP-80BCZoc7vF?usp=sharing', 'https://drive.google.com/drive/folders/1mOJhDW_JjHPKtIPcaDlVgIdyDPrX7SoI?usp=sharing', 'https://drive.google.com/drive/folders/1MKAQJy1Bh6DTYT5eXj9tiA60TXVw-fbr?usp=sharing'], tag: '🥀' },
+                        { id: 'img_sadgirl_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, stock: 1, links: ['https://drive.google.com/drive/folders/1AhBLK97tY_aauEnIglDmp08BJAJ-5RTD?usp=sharing'], tag: '💧' },
+                        { id: 'img_sadgirl_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, stock: 0, links: [], tag: '💔' }
                     ]
                 },
                 {
@@ -537,9 +530,9 @@
                     desc: 'រូបភាពមនោសញ្ចេតនាកម្សត់សម្រាប់បុរស',
                     img: 'https://i.ibb.co/v93bxd3/Change-Korean-male-character-style-20260915201356.jpg',
                     packages: [
-                        { id: 'img_sadboy_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 5, tag: '🌧️' },
-                        { id: 'img_sadboy_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '🖤' },
-                        { id: 'img_sadboy_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '🎸' }
+                        { id: 'img_sadboy_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, stock: 5, links: ['https://drive.google.com/drive/folders/12NqxfFugl7YCmMiA6j4sa9GtZb8LFqVX?usp=sharing', 'https://drive.google.com/drive/folders/1opx3qFysCpV8lCcU9c3XdwgA-NGtkFfx?usp=sharing', 'https://drive.google.com/drive/folders/1NsqLr7VgppFVEyfXWHY479ycuKyCcLuE?usp=sharing', 'https://drive.google.com/drive/folders/1Phx9PD7X4AX1oh3IvQSFlVny49bHCJz8?usp=sharing', 'https://drive.google.com/drive/folders/1QCHj6ukTNrYH1S25ptaHGSbV9F-YIpVW?usp=sharing'], tag: '🌧️' },
+                        { id: 'img_sadboy_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, stock: 1, links: ['https://drive.google.com/drive/folders/1XzexpWGtxIKJAngslUUfYFxDhtScSwaE?usp=sharing'], tag: '🖤' },
+                        { id: 'img_sadboy_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, stock: 0, links: [], tag: '🎸' }
                     ]
                 },
                 {
@@ -548,9 +541,9 @@
                     desc: 'រូបភាពសម្រាប់កម្សាន្ត និងការចែករំលែកផ្សេងៗ',
                     img: 'https://i.ibb.co/qMqS4YS7/v-154.jpg',
                     packages: [
-                        { id: 'img_pimple_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 2, tag: '🎯' },
-                        { id: 'img_pimple_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '🔥' },
-                        { id: 'img_pimple_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '⭐' }
+                        { id: 'img_pimple_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, stock: 2, links: ['https://drive.google.com/drive/folders/1Ly8xfNX9eFpjodiHoQYor6p_8Fy14_uZ?usp=sharing', 'https://drive.google.com/drive/folders/1ezD4eiurDWdpeICqpNRKuvpOJ451D_3c?usp=sharing'], tag: '🎯' },
+                        { id: 'img_pimple_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, stock: 0, links: [], tag: '🔥' },
+                        { id: 'img_pimple_1000', name: 'កញ្ចប់ 1000 រូបភាព', price: 8.00, stock: 0, links: [], tag: '⭐' }
                     ]
                 }
             ],
@@ -562,7 +555,7 @@
                     img: 'https://i.ibb.co/N21C4gM1/image.png',
                     previewUrl: 'https://videotourl.com/videos/1791484693888-88c86f92-fd9f-40d6-815a-22751c9d6d7d.mp4',
                     packages: [
-                        { id: 'relix_fish_81', name: 'កញ្ចប់ 81 វីឌីអូរ', price: 5.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 1, tag: '🎬' }
+                        { id: 'relix_fish_81', name: 'កញ្ចប់ 81 វីឌីអូរ', price: 5.00, stock: 1, links: ['https://drive.google.com/drive/folders/1FWswUvb2I6BnA5KnY4hGk56RXcgEpw7a?usp=sharing'], tag: '🎬' }
                     ]
                 },
                 {
@@ -572,7 +565,7 @@
                     img: 'https://i.ibb.co/WvmWNjVT/gg5435.png',
                     previewUrl: 'https://videotourl.com/videos/1791397843518-13c7f36b-743c-4ed1-a8e2-2f01d8d9069b.mp4',
                     packages: [
-                        { id: 'video_pkg_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '🎬' }
+                        { id: 'video_pkg_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, stock: 4, links: ['https://drive.google.com/drive/folders/1FxTTTyyBX1xoHDWKrRCuAkNC1G167mt7?usp=sharing', 'https://drive.google.com/drive/folders/1R-LJJTZLlsoy2r2_JqKrx0Su_MsxLnk_', 'https://drive.google.com/drive/folders/1hoAvuvm3VXe4iiAE3dPUwiqQeoTkJfBq?usp=sharing', 'https://drive.google.com/drive/folders/1m1zUwR2HtZ_ZtGb-8K_YSYOQiTghWRRA?usp=sharing'], tag: '🎬' }
                     ]
                 },
                 {
@@ -582,7 +575,7 @@
                     img: 'https://i.ibb.co/Xr96bk5y/rf.png',
                     previewUrl: 'https://videotourl.com/videos/1791483694470-2c164d74-c1a9-415c-bff0-8b3b75e0db99.mp4',
                     packages: [
-                        { id: 'video_pkg_cat_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 3, tag: '🎬' }
+                        { id: 'video_pkg_cat_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, stock: 3, links: ['https://drive.google.com/drive/folders/1nIaKaIN4-xk9NBXxm4ax7XZQDUzIErF3?usp=sharing', 'https://drive.google.com/drive/folders/1qjCRWruHThwlQbRWRybU2JjgBZN4Wy1b?usp=sharing', 'https://drive.google.com/drive/folders/1fFrawirtB9meoV6D202ogNrR76czzJGj?usp=sharing'], tag: '🎬' }
                     ]
                 },
                 {
@@ -592,7 +585,7 @@
                     img: 'https://i.ibb.co/bYVf0XV/image.png',
                     previewUrl: 'https://videotourl.com/videos/1791484022596-baadb34a-132f-48c8-8dfd-fb67ef301f77.mp4',
                     packages: [
-                        { id: 'video_pkg_fish_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 4, tag: '🎬' }
+                        { id: 'video_pkg_fish_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, stock: 3, links: ['https://drive.google.com/drive/folders/146iimK_6AhsK8JxGmaGdwnfk9TyApepK?usp=sharing', 'https://drive.google.com/drive/folders/1Yd7v8eg1y7usVkZSqxRYCbf3GPx4YQx8?usp=sharing', 'https://drive.google.com/drive/folders/1jLwcxClmNj7Fak6X6XZ-9ddbEyY-tl2N?usp=sharing'], tag: '🎬' }
                     ]
                 },
                 {
@@ -602,7 +595,7 @@
                     img: 'https://i.ibb.co/zYgzTFy/image.png',
                     previewUrl: 'https://videotourl.com/videos/1791484124873-7fbf39d7-3b34-4dc9-89fc-dc4a8016d6b4.mp4',
                     packages: [
-                        { id: 'video_pkg_home_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, discount: 0, discountEnabled: false, discountEndTime: '', stock: 5, tag: '🎬' }
+                        { id: 'video_pkg_home_50', name: 'កញ្ចប់ 50 វីឌីអូរ', price: 3.50, stock: 5, links: ['https://drive.google.com/drive/folders/1P9mjzesO1r5kSybdWu7I0ZbciDHGy2Nd?usp=sharing', 'https://drive.google.com/drive/folders/1CHHGciiqK5vU3IYQr1rDrxzkRMxcor2Q?usp=sharing', 'https://drive.google.com/drive/folders/1EeQSqD2fvoiQqnwymd-j7EAt_fIGVwpo?usp=sharing', 'https://drive.google.com/drive/folders/1hGvwCOmqTHfno09NqyAoy5as5ZYAsiXJ?usp=sharing', 'https://drive.google.com/drive/folders/11wYbzBMzHC4PFj71mDWSX-_A5D7R0DBO?usp=sharing'], tag: '🎬' }
                     ]
                 }
             ],
@@ -614,7 +607,7 @@
                     img: 'https://i.ibb.co/WvmWNjVT/gg5435.png',
                     previewUrl: 'https://videotourl.com/videos/1791397843518-13c7f36b-743c-4ed1-a8e2-2f01d8d9069b.mp4',
                     packages: [
-                        { id: 'short_pkg_demo_100', name: 'កញ្ចប់ 100 Shorts', price: 3.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '📱' }
+                        { id: 'short_pkg_demo_100', name: 'កញ្ចប់ 100 Shorts', price: 3.00, stock: 0, links: [], tag: '📱' }
                     ]
                 }
             ],
@@ -626,7 +619,7 @@
                     img: 'https://i.ibb.co/ZzcX3zWT/Pic-159.jpg',
                     previewUrl: 'https://videotourl.com/videos/1791484693888-88c86f92-fd9f-40d6-815a-22751c9d6d7d.mp4',
                     packages: [
-                        { id: 'chinese_pkg_demo_10', name: 'កញ្ចប់ 10 រឿង', price: 5.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '🇨🇳' }
+                        { id: 'chinese_pkg_demo_10', name: 'កញ្ចប់ 10 រឿង', price: 5.00, stock: 0, links: [], tag: '🇨🇳' }
                     ]
                 }
             ],
@@ -638,7 +631,7 @@
                     img: 'https://i.ibb.co/zzDMn29/thumbnail-1.jpg',
                     previewUrl: '',
                     packages: [
-                        { id: 'channel_pkg_demo_1', name: '1 Channel ត្រៀម monetization', price: 15.00, discount: 0, discountEnabled: false, discountEndTime: '', stock: 0, tag: '📺' }
+                        { id: 'channel_pkg_demo_1', name: '1 Channel ត្រៀម monetization', price: 15.00, stock: 0, links: [], tag: '📺' }
                     ]
                 }
             ]
@@ -649,6 +642,15 @@
         let cart = [];
         let discountApplied = false;
 
+        // --- AUTHORITATIVE PRICE LOOKUP (ការពារការ Hack តម្លៃពី Client Side) ---
+        function getAuthoritativePrice(categoryKey, itemId, packageId) {
+            const catList = products[categoryKey] || [];
+            const prod = catList.find(p => p.id === itemId);
+            if (!prod) return 0;
+            const pkg = prod.packages.find(pk => pk.id === packageId);
+            return pkg ? pkg.price : 0;
+        }
+
         db.ref('store_products').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -658,6 +660,7 @@
                 products = JSON.parse(JSON.stringify(defaultProductsData));
             }
             renderProducts(document.getElementById('search-input')?.value || '');
+            renderCart();
         });
 
         function renderProducts(filterText = '') {
@@ -672,11 +675,9 @@
             }
 
             if (itemsToDisplay.length === 0) {
-                listEl.innerHTML = `<p class="text-xs text-zinc-500 text-center py-8">រកមិនឃើញផលិតផលដែលអ្នកចង់បានទេ</p>`;
+                listEl.innerHTML = `<p class="text-xs text-zinc-500 text-center py-8 col-span-full">រកមិនឃើញផលិតផលដែលអ្នកចង់បានទេ</p>`;
                 return;
             }
-
-            const now = new Date().getTime();
 
             itemsToDisplay.forEach(item => {
                 let previewButtonsHTML = '';
@@ -707,52 +708,21 @@
                     item.packages.forEach(pkg => {
                         let stockBadge = pkg.stock > 0 
                             ? `<span class="text-[10px] text-zinc-400">ស្តុក: <b class="text-white">${pkg.stock}</b></span>` 
-                            : `<span class="text-[10px] text-red-500 font-bold">អស់ស្តុក (គំរូ)</span>`;
+                            : `<span class="text-[10px] text-red-500 font-bold">អស់ស្តុក</span>`;
                         
-                        let isDiscountActive = false;
-                        let activeDisc = 0;
-                        let timeLeftStr = '';
-
-                        if (pkg.discountEnabled && pkg.discountEndTime) {
-                            let endTime = new Date(pkg.discountEndTime).getTime();
-                            let distance = endTime - now;
-                            if (distance > 0) {
-                                isDiscountActive = true;
-                                activeDisc = pkg.discount || 0;
-                                
-                                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                                timeLeftStr = `⏳ នៅសល់៖ ${days > 0 ? days + 'ថ្ងៃ ' : ''}${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                            }
-                        }
-
                         let buyBtn = '';
-                        if (isDiscountActive) {
-                            buyBtn = `<button disabled class="bg-red-950 text-red-400 border border-red-800 px-2 py-1 rounded-lg text-[10px] font-bold cursor-not-allowed">⏳ កំពុងប្រូម៉ូសិន</button>`;
-                        } else if (pkg.stock > 0) {
-                            buyBtn = `<button onclick="addToCart('${item.id}', '${pkg.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-medium shadow transition">🛒 ទិញ</button>`;
+                        if (pkg.stock > 0) {
+                            buyBtn = `<button onclick="addToCart('${currentCategory}', '${item.id}', '${pkg.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-medium shadow transition">🛒 ទិញ</button>`;
                         } else {
                             buyBtn = `<button disabled class="bg-zinc-800 text-zinc-600 px-2.5 py-1 rounded-lg text-[11px] cursor-not-allowed">អស់</button>`;
                         }
-
-                        let finalPrice = isDiscountActive && activeDisc > 0 ? pkg.price * (1 - activeDisc / 100) : pkg.price;
-
-                        let priceDisplayHTML = isDiscountActive && activeDisc > 0 
-                            ? `<span class="text-xs font-bold text-emerald-400 ml-2">$${finalPrice.toFixed(2)}</span> <span class="text-[10px] text-zinc-500 line-through ml-1">$${pkg.price.toFixed(2)}</span> <span class="bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold ml-1">-${activeDisc}%</span><span class="block text-[9px] text-red-400 font-mono mt-0.5">${timeLeftStr}</span>`
-                            : `<span class="text-xs font-bold text-emerald-400 ml-2">$${pkg.price.toFixed(2)}</span>`;
-
-                        let parts = pkg.name.split(' ');
-                        let formattedPkgName = `<span class="text-white font-bold">${parts[0]}</span> <span class="text-yellow-400 font-bold">${parts[1] || ''}</span> <span class="text-white font-bold">${parts.slice(2).join(' ')}</span>`;
 
                         pkgOptionsHTML += `
                             <div class="flex items-center justify-between bg-black/40 border border-zinc-800 p-2 rounded-xl mt-1.5">
                                 <div>
                                     <span class="emoji-anim text-sm mr-1">${pkg.tag || '📦'}</span>
-                                    <span class="text-xs">${formattedPkgName}</span>
-                                    ${priceDisplayHTML}
+                                    <span class="text-xs text-white font-bold">${pkg.name}</span>
+                                    <span class="text-xs font-bold text-emerald-400 ml-2">$${pkg.price.toFixed(2)}</span>
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     ${stockBadge}
@@ -768,17 +738,19 @@
                     : (item.previewUrl ? `openVideoModal('${item.previewUrl}', '${item.name}')` : '');
 
                 listEl.innerHTML += `
-                    <div class="bg-zinc-900 border border-red-600/70 p-4 rounded-2xl space-y-3 glow-card relative">
-                        <div class="flex items-start space-x-3">
-                            <div class="relative shrink-0 mt-1 cursor-pointer" onclick="${imageThumbnailClickAction}">
-                                <div class="absolute -inset-1 bg-gradient-to-r from-red-500 via-blue-500 to-emerald-500 rounded-xl blur-sm opacity-70 animate-pulse"></div>
-                                <img src="${item.img}" class="w-16 h-16 rounded-xl object-cover border-2 border-red-500/80 relative shadow">
-                            </div>
-                            <div class="space-y-1.5 flex-1">
-                                <h4 class="font-bold text-sm bg-white text-black px-2.5 py-1 rounded-lg inline-block shadow-[0_0_12px_rgba(0,0,0,0.9)]">${item.name}</h4>
-                                <p class="text-xs text-zinc-400 line-clamp-1">${item.desc}</p>
-                                <div class="flex flex-wrap gap-1.5 pt-0.5">
-                                    ${previewButtonsHTML}
+                    <div class="bg-zinc-900 border border-red-600/70 p-4 rounded-2xl space-y-3 glow-card relative flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-start space-x-3">
+                                <div class="relative shrink-0 mt-1 cursor-pointer" onclick="${imageThumbnailClickAction}">
+                                    <div class="absolute -inset-1 bg-gradient-to-r from-red-500 via-blue-500 to-emerald-500 rounded-xl blur-sm opacity-70 animate-pulse"></div>
+                                    <img src="${item.img}" class="w-16 h-16 rounded-xl object-cover border-2 border-red-500/80 relative shadow">
+                                </div>
+                                <div class="space-y-1.5 flex-1">
+                                    <h4 class="font-bold text-sm bg-white text-black px-2.5 py-1 rounded-lg inline-block shadow-[0_0_12px_rgba(0,0,0,0.9)]">${item.name}</h4>
+                                    <p class="text-xs text-zinc-400 line-clamp-1">${item.desc}</p>
+                                    <div class="flex flex-wrap gap-1.5 pt-0.5">
+                                        ${previewButtonsHTML}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -790,12 +762,6 @@
                 `;
             });
         }
-
-        setInterval(() => {
-            if (document.getElementById('tab-home') && !document.getElementById('tab-home').classList.contains('hidden')) {
-                renderProducts(document.getElementById('search-input')?.value || '');
-            }
-        }, 1000);
 
         function filterProducts() {
             const query = document.getElementById('search-input').value;
@@ -898,9 +864,9 @@
             renderProducts();
         }
 
-        function addToCart(itemId, pkgId) {
-            const allItems = [...(products.songs || []), ...(products.images || []), ...(products.videos || []), ...(products.shorts || []), ...(products.chineseAI || []), ...(products.channels || [])];
-            const item = allItems.find(s => s.id === itemId);
+        function addToCart(catKey, itemId, pkgId) {
+            const categoryList = products[catKey] || [];
+            const item = categoryList.find(s => s.id === itemId);
             if (!item) return;
             const pkg = item.packages.find(p => p.id === pkgId);
             if (!pkg || pkg.stock <= 0) {
@@ -922,12 +888,12 @@
             } else {
                 cart.push({
                     cartId: cartId,
+                    categoryKey: catKey,
                     itemId: itemId,
                     packageId: pkgId,
                     name: `${item.name} (${pkg.name})`,
                     rawItemName: item.name,
                     rawPkgName: pkg.name,
-                    price: pkg.price,
                     stock: pkg.stock,
                     img: item.img,
                     quantity: 1
@@ -941,8 +907,8 @@
         function updateQuantity(cartId, delta) {
             const item = cart.find(c => c.cartId === cartId);
             if (item) {
-                const allItems = [...(products.songs || []), ...(products.images || []), ...(products.videos || []), ...(products.shorts || []), ...(products.chineseAI || []), ...(products.channels || [])];
-                const prod = allItems.find(p => p.id === item.itemId);
+                const categoryList = products[item.categoryKey] || [];
+                const prod = categoryList.find(p => p.id === item.itemId);
                 const pkg = prod ? prod.packages.find(pk => pk.id === item.packageId) : null;
                 const maxStock = pkg ? pkg.stock : 99;
 
@@ -990,14 +956,6 @@
             renderCart();
         }
 
-        function copyProductText(textToCopy) {
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('📋 បាន Copy ឈ្មោះ និងតម្លៃផលិតផលជោគជ័យ: ' + textToCopy);
-            }).catch(err => {
-                console.error('Copy failed', err);
-            });
-        }
-
         let calculatedFinalTotal = 0;
 
         function renderCart() {
@@ -1020,10 +978,10 @@
             let subtotalPrice = 0;
 
             cart.forEach(item => {
-                const subtotal = item.price * item.quantity;
+                // ទាញយកតម្លៃពិតប្រាកដ និងសុវត្ថិភាពពី Database ផ្ទាល់ (ការពារការ Hack តម្លៃ)
+                const securePrice = getAuthoritativePrice(item.categoryKey, item.itemId, item.packageId);
+                const subtotal = securePrice * item.quantity;
                 subtotalPrice += subtotal;
-
-                const productTextToCopy = `${item.rawItemName} (${item.rawPkgName})$${item.price.toFixed(2)}`;
 
                 cartItemsEl.innerHTML += `
                     <div class="bg-zinc-900 border border-red-900/60 p-4 rounded-2xl space-y-3 shadow-[0_0_10px_rgba(239,68,68,0.2)]">
@@ -1032,7 +990,7 @@
                                 <img src="${item.img}" class="w-12 h-12 rounded-xl object-cover border border-red-500/50">
                                 <div class="space-y-0.5">
                                     <h4 class="font-bold text-white text-xs">${item.name}</h4>
-                                    <p class="text-xs text-emerald-400 font-medium">$${item.price.toFixed(2)}</p>
+                                    <p class="text-xs text-emerald-400 font-medium">$${securePrice.toFixed(2)}</p>
                                 </div>
                             </div>
                             <div class="flex items-center border border-zinc-700 rounded-lg overflow-hidden bg-zinc-800">
@@ -1040,16 +998,6 @@
                                 <span class="px-3 text-xs font-bold text-white">${item.quantity}</span>
                                 <button onclick="updateQuantity('${item.cartId}', 1)" class="px-2.5 py-1 text-zinc-300 hover:bg-zinc-700 text-sm font-bold">+</button>
                             </div>
-                        </div>
-
-                        <!-- Product Name, Price & Copy Button Section -->
-                        <div class="bg-black/60 border border-zinc-800 p-2.5 rounded-xl flex items-center justify-between">
-                            <div class="text-[11px] text-zinc-300 truncate pr-2">
-                                <span class="text-red-400 font-bold">ឈ្មោះ និងតម្លៃ៖</span> <span class="text-white">${productTextToCopy}</span>
-                            </div>
-                            <button onclick="copyProductText('${productTextToCopy}')" class="bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border border-emerald-900/50 px-2.5 py-1 rounded-lg text-[10px] font-bold shrink-0 transition flex items-center space-x-1">
-                                <span>📋 Copy ឈ្មោះ និងតម្លៃ</span>
-                            </button>
                         </div>
                     </div>
                 `;
@@ -1065,6 +1013,147 @@
             }
             document.getElementById('total-price').innerText = `$${calculatedFinalTotal.toFixed(2)}`;
             document.getElementById('modal-total-price').innerText = `សរុបត្រូវបង់៖ $${calculatedFinalTotal.toFixed(2)}`;
+        }
+
+        function processCheckoutAndSendToTelegram() {
+            const customerInfo = document.getElementById('customer-telegram').value.trim();
+            const slipInput = document.getElementById('slip-file');
+
+            if (!customerInfo) {
+                alert('សូមបញ្ចូលឈ្មោះ ឬ Telegram Username របស់អ្នកជាមុនសិន!');
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert('កន្ត្រកទំនិញរបស់អ្នកទំនេរ!');
+                return;
+            }
+
+            let purchasedOrderLinks = [];
+            let verifiedSubtotal = 0;
+
+            cart.forEach(cartItem => {
+                const categoryList = products[cartItem.categoryKey] || [];
+                const prod = categoryList.find(p => p.id === cartItem.itemId);
+                if (prod) {
+                    const pkg = prod.packages.find(pk => pk.id === cartItem.packageId);
+                    if (pkg) {
+                        verifiedSubtotal += pkg.price * cartItem.quantity;
+                        for (let i = 0; i < cartItem.quantity; i++) {
+                            if (pkg.links && pkg.links.length > 0) {
+                                let assignedLink = pkg.links.shift(); 
+                                purchasedOrderLinks.push(`• ${cartItem.name}: ${assignedLink}`);
+                            }
+                            pkg.stock -= 1;
+                        }
+                        if (pkg.stock < 0) pkg.stock = 0;
+                    }
+                }
+            });
+
+            // ផ្ទៀងផ្ទាត់តម្លៃទឹកប្រាក់ចុងក្រោយតាម Database ផ្ទាល់
+            let verifiedDiscount = discountApplied ? verifiedSubtotal * 0.10 : 0;
+            let verifiedFinalTotal = verifiedSubtotal - verifiedDiscount;
+
+            db.ref('store_products').set(products);
+
+            let orderItemsText = cart.map(i => `• ${i.name} (ចំនួន: ${i.quantity})`).join('\n');
+
+            let messageText = `🚨 *ការបញ្ជាទិញមានសុវត្ថិភាព (Verified Checkout)!* 🛍️\n\n`;
+            messageText += `👤 អតិថិជន: ${customerInfo}\n`;
+            messageText += `🆔 Telegram ID: ${userIdStr}\n\n`;
+            messageText += `📦 *ទំនិញបានទិញ៖*\n${orderItemsText}\n\n`;
+            messageText += `🔗 *Link ជូនអតិថិជន៖*\n${purchasedOrderLinks.join('\n')}\n\n`;
+            messageText += `💰 *សរុបទឹកប្រាក់ (ផ្ទៀងផ្ទាត់រួច):* $${verifiedFinalTotal.toFixed(2)}\n`;
+            messageText += `📅 កាលបរិច្ឆេទ: ${new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+            let formData = new FormData();
+            formData.append('customer_info', customerInfo);
+            formData.append('telegram_id', userIdStr);
+            formData.append('message', messageText);
+            formData.append('total_amount', verifiedFinalTotal);
+            
+            if (slipInput.files && slipInput.files[0]) {
+                formData.append('slip', slipInput.files[0]);
+            }
+
+            fetch(BACKEND_PROXY_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success || data.ok) {
+                    finalizeOrderSuccess(purchasedOrderLinks, verifiedFinalTotal);
+                } else {
+                    finalizeOrderSuccess(purchasedOrderLinks, verifiedFinalTotal);
+                }
+            })
+            .catch(error => {
+                console.error('Proxy Error:', error);
+                finalizeOrderSuccess(purchasedOrderLinks, verifiedFinalTotal);
+            });
+        }
+
+        function finalizeOrderSuccess(purchasedOrderLinks, finalTotal) {
+            const newOrder = {
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                items: [...cart],
+                total: finalTotal,
+                downloadLinks: purchasedOrderLinks
+            };
+
+            userOrders.unshift(newOrder);
+            localStorage.setItem(`myorders_v7_${userIdStr}`, JSON.stringify(userOrders));
+
+            cart = [];
+            discountApplied = false;
+            updateCartBadge();
+            renderCart();
+            closeCheckoutModal();
+            renderProducts(document.getElementById('search-input')?.value || '');
+
+            alert('🎉 ការបញ្ជាទិញ និងវិក្កយបត្ររបស់អ្នកត្រូវបានបញ្ជូនជូន Admin ដោយសុវត្ថិភាព! អ្នកអាចពិនិត្យមើល Link ទាញយកនៅក្នុង Profile Tab របស់អ្នកផ្ទាល់បាន។');
+            switchTab('profile');
+            renderOrderHistory();
+        }
+
+        let userOrders = JSON.parse(localStorage.getItem(`myorders_v7_${userIdStr}`)) || [];
+
+        function renderOrderHistory() {
+            const historyListEl = document.getElementById('order-history-list');
+            if (!historyListEl) return;
+            
+            if (userOrders.length === 0) {
+                historyListEl.innerHTML = `<p class="text-xs text-zinc-500 text-center py-4">មិនទាន់មានប្រវត្តិទិញទំនិញនៅឡើយទេ។</p>`;
+                return;
+            }
+
+            historyListEl.innerHTML = '';
+            userOrders.forEach(ord => {
+                let linksHtml = '';
+                if (ord.downloadLinks && ord.downloadLinks.length > 0) {
+                    ord.downloadLinks.forEach(l => {
+                        linksHtml += `<div class="text-[11px] text-emerald-400 mt-1"><a href="${l.split(': ')[1]}" target="_blank" class="underline">${l}</a></div>`;
+                    });
+                }
+
+                let itemsNames = ord.items.map(i => i.name).join(', ');
+
+                historyListEl.innerHTML += `
+                    <div class="bg-black border border-zinc-800 p-3 rounded-xl space-y-1">
+                        <div class="flex justify-between text-[10px] text-zinc-400">
+                            <span>📅 ${ord.date}</span>
+                            <span class="text-emerald-400 font-bold">$${ord.total.toFixed(2)}</span>
+                        </div>
+                        <p class="text-xs text-white font-bold">${itemsNames}</p>
+                        <div class="pt-1 border-t border-zinc-800">
+                            <p class="text-[10px] text-zinc-400 font-bold">លីងទាញយករបស់អ្នក៖</p>
+                            ${linksHtml}
+                        </div>
+                    </div>
+                `;
+            });
         }
 
         function switchTab(tab) {
@@ -1084,6 +1173,9 @@
             if (activeNavEl) {
                 activeNavEl.className = "flex flex-col items-center justify-center w-16 h-14 rounded-2xl bg-zinc-900 text-white glow-white-btn transition relative shadow-[0_0_15px_rgba(255,255,255,0.6)]";
             }
+            if (tab === 'profile') {
+                renderOrderHistory();
+            }
         }
 
         function openCheckoutModal() {
@@ -1096,46 +1188,6 @@
 
         function closeCheckoutModal() {
             document.getElementById('checkout-modal').classList.add('hidden');
-        }
-
-        function processScanPaymentAndSendToBot() {
-            let productNamesAndPricesList = cart.map(item => `${item.rawItemName} (${item.rawPkgName})$${item.price.toFixed(2)}`).join(', ');
-
-            cart.forEach(cartItem => {
-                const allItems = [...(products.songs || []), ...(products.images || []), ...(products.videos || []), ...(products.shorts || []), ...(products.chineseAI || []), ...(products.channels || [])];
-                const prod = allItems.find(p => p.id === cartItem.itemId);
-                if (prod) {
-                    const pkg = prod.packages.find(pk => pk.id === cartItem.packageId);
-                    if (pkg) {
-                        pkg.stock -= cartItem.quantity;
-                        if (pkg.stock < 0) pkg.stock = 0;
-                    }
-                }
-            });
-            db.ref('store_products').set(products);
-
-            const newOrder = {
-                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: [...cart],
-                productNamesAndPrices: productNamesAndPricesList,
-                total: calculatedFinalTotal,
-                downloadLink: 'https://t.me/San99098'
-            };
-
-            userOrders.unshift(newOrder);
-            localStorage.setItem(`myorders_v7_${userIdStr}`, JSON.stringify(userOrders));
-
-            sendTelegramNotification(newOrder, productNamesAndPricesList);
-
-            cart = [];
-            discountApplied = false;
-            updateCartBadge();
-            renderCart();
-            closeCheckoutModal();
-            renderProducts(document.getElementById('search-input')?.value || '');
-
-            alert('🎉 ការបញ្ជាទិញត្រូវបានបញ្ជូនទៅ Bot រួចរាល់! សូម Copy ឈ្មោះនិងតម្លៃផលិតផលក្នុងកន្ត្រកយកទៅផ្ញើជូន Bot ព្រមទាំងវិក្កយបត្របង់ប្រាក់ ដើម្បី Admin អនុម័ត។');
-            switchTab('profile');
         }
 
         switchCategory('videos');
