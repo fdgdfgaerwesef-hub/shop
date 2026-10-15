@@ -54,7 +54,7 @@
     <!-- Announcement Ticker -->
     <div class="bg-red-600 text-white text-xs py-2 px-4 overflow-hidden relative shadow-md w-full">
         <div class="ticker-wrap">
-            <span class="ticker-move font-medium">🎉 សូមស្វាគមន៍មកកាន់ហាងលក់វីឌីអូរ និងមាតិកា VIP! ប្រើប្រាស់កូដ <b class="underline">VIP10</b> បញ្ចុះតម្លៃ ១០% ⚡️ ប្រព័ន្ធទូទាត់មានសុវត្ថិភាពខ្ពស់ការពារការកែប្រែតម្លៃ! 🔥</span>
+            <span class="ticker-move font-medium">🎉 សូមស្វាគមន៍មកកាន់ហាងលក់វីឌីអូរ និងមាតិកា VIP! ប្រើប្រាស់កូដ <b class="underline">VIP10</b> បញ្ចុះតម្លៃ ១០% ⚡️ រាល់ការបញ្ជាទិញត្រូវរង់ចាំ Admin ពិនិត្យវិក្កយបត្រជាមុនសិន! 🔥</span>
         </div>
     </div>
 
@@ -171,7 +171,7 @@
 
             <!-- Order History & Download Link Section -->
             <div class="bg-zinc-900 border border-red-900/50 p-4 rounded-2xl space-y-3">
-                <h4 class="font-bold text-white text-sm border-b border-zinc-800 pb-2">📦 ប្រវត្តិការបញ្ជាទិញ និង Link ទាញយក</h4>
+                <h4 class="font-bold text-white text-sm border-b border-zinc-800 pb-2">📦 ប្រវត្តិការបញ្ជាទិញ និងស្ថានភាពរង់ចាំ</h4>
                 <div id="order-history-list" class="space-y-3">
                     <p class="text-xs text-zinc-500 text-center py-4">មិនទាន់មានប្រវត្តិទិញទំនិញនៅឡើយទេ។</p>
                 </div>
@@ -355,7 +355,6 @@
         const profileUserIdEl = document.getElementById('user-id-profile');
         if (profileUserIdEl) profileUserIdEl.innerText = userIdStr;
 
-        // --- SECURE BACKEND PROXY ENDPOINT ---
         const BACKEND_PROXY_URL = 'https://your-backend-server.com/api/send-order';
 
         // --- ផលិតផល និងប្រព័ន្ធស្តុកពិតប្រាកដ ---
@@ -642,7 +641,6 @@
         let cart = [];
         let discountApplied = false;
 
-        // --- AUTHORITATIVE PRICE LOOKUP (ការពារការ Hack តម្លៃពី Client Side) ---
         function getAuthoritativePrice(categoryKey, itemId, packageId) {
             const catList = products[categoryKey] || [];
             const prod = catList.find(p => p.id === itemId);
@@ -978,7 +976,6 @@
             let subtotalPrice = 0;
 
             cart.forEach(item => {
-                // ទាញយកតម្លៃពិតប្រាកដ និងសុវត្ថិភាពពី Database ផ្ទាល់ (ការពារការ Hack តម្លៃ)
                 const securePrice = getAuthoritativePrice(item.categoryKey, item.itemId, item.packageId);
                 const subtotal = securePrice * item.quantity;
                 subtotalPrice += subtotal;
@@ -1024,12 +1021,17 @@
                 return;
             }
 
+            if (!slipInput.files || !slipInput.files[0]) {
+                alert('សូម Upload រូបភាពវិក្កយបត្រ (Slip បង់ប្រាក់) ជាមុនសិន ដើម្បីផ្ញើជូន Admin ផ្ទៀងផ្ទាត់!');
+                return;
+            }
+
             if (cart.length === 0) {
                 alert('កន្ត្រកទំនិញរបស់អ្នកទំនេរ!');
                 return;
             }
 
-            let purchasedOrderLinks = [];
+            let pendingItems = [];
             let verifiedSubtotal = 0;
 
             cart.forEach(cartItem => {
@@ -1039,32 +1041,28 @@
                     const pkg = prod.packages.find(pk => pk.id === cartItem.packageId);
                     if (pkg) {
                         verifiedSubtotal += pkg.price * cartItem.quantity;
+                        // រក្សាទុកព័ត៌មានទំនិញសម្រាប់ផ្ញើទៅ Admin ពិនិត្យ (មិនទាន់កាត់ស្តុក ឬផ្តល់ Link ឱ្យភ្លាមៗទេ)
                         for (let i = 0; i < cartItem.quantity; i++) {
                             if (pkg.links && pkg.links.length > 0) {
-                                let assignedLink = pkg.links.shift(); 
-                                purchasedOrderLinks.push(`• ${cartItem.name}: ${assignedLink}`);
+                                pendingItems.push(`• ${cartItem.name}: [រង់ចាំ Admin អනුម័ត]`);
                             }
-                            pkg.stock -= 1;
                         }
-                        if (pkg.stock < 0) pkg.stock = 0;
                     }
                 }
             });
 
-            // ផ្ទៀងផ្ទាត់តម្លៃទឹកប្រាក់ចុងក្រោយតាម Database ផ្ទាល់
             let verifiedDiscount = discountApplied ? verifiedSubtotal * 0.10 : 0;
             let verifiedFinalTotal = verifiedSubtotal - verifiedDiscount;
 
-            db.ref('store_products').set(products);
+            let orderItemsText = cart.map(i => `• ${i.name} (ចំនួន: ${i.quantity}) - $${(getAuthoritativePrice(i.categoryKey, i.itemId, i.packageId) * i.quantity).toFixed(2)}`).join('\n');
 
-            let orderItemsText = cart.map(i => `• ${i.name} (ចំនួន: ${i.quantity})`).join('\n');
-
-            let messageText = `🚨 *ការបញ្ជាទិញមានសុវត្ថិភាព (Verified Checkout)!* 🛍️\n\n`;
+            // សារផ្ញើជូន Admin ថាមានការស្នើសុំទិញថ្មី (រង់ចាំការពិនិត្យ)
+            let messageText = `⏳ *មានការស្នើសុំទិញថ្មី (រង់ចាំ Admin ពិនិត្យ Slip)!* 🛍️\n\n`;
             messageText += `👤 អតិថិជន: ${customerInfo}\n`;
             messageText += `🆔 Telegram ID: ${userIdStr}\n\n`;
-            messageText += `📦 *ទំនិញបានទិញ៖*\n${orderItemsText}\n\n`;
-            messageText += `🔗 *Link ជូនអតិថិជន៖*\n${purchasedOrderLinks.join('\n')}\n\n`;
-            messageText += `💰 *សរុបទឹកប្រាក់ (ផ្ទៀងផ្ទាត់រួច):* $${verifiedFinalTotal.toFixed(2)}\n`;
+            messageText += `📦 *ទំនិញរង់ចាំការផ្ទៀងផ្ទាត់៖*\n${orderItemsText}\n\n`;
+            messageText += `💰 *សរុបទឹកប្រាក់៖* $${verifiedFinalTotal.toFixed(2)}\n`;
+            messageText += `⚠️ *ស្ថានភាព៖* កំពុងរង់ចាំ Admin ពិនិត្យវិក្កយបត្រ!\n`;
             messageText += `📅 កាលបរិច្ឆេទ: ${new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 
             let formData = new FormData();
@@ -1072,10 +1070,7 @@
             formData.append('telegram_id', userIdStr);
             formData.append('message', messageText);
             formData.append('total_amount', verifiedFinalTotal);
-            
-            if (slipInput.files && slipInput.files[0]) {
-                formData.append('slip', slipInput.files[0]);
-            }
+            formData.append('slip', slipInput.files[0]);
 
             fetch(BACKEND_PROXY_URL, {
                 method: 'POST',
@@ -1083,27 +1078,26 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success || data.ok) {
-                    finalizeOrderSuccess(purchasedOrderLinks, verifiedFinalTotal);
-                } else {
-                    finalizeOrderSuccess(purchasedOrderLinks, verifiedFinalTotal);
-                }
+                finalizePendingOrder(verifiedFinalTotal);
             })
             .catch(error => {
                 console.error('Proxy Error:', error);
-                finalizeOrderSuccess(purchasedOrderLinks, verifiedFinalTotal);
+                // ករណីតេស្តដោយគ្មាន Backend ផ្ទាល់
+                finalizePendingOrder(verifiedFinalTotal);
             });
         }
 
-        function finalizeOrderSuccess(purchasedOrderLinks, finalTotal) {
-            const newOrder = {
+        function finalizePendingOrder(finalTotal) {
+            // រក្សាទុកក្នុងប្រវត្តិថា "កំពុងរង់ចាំការផ្ទៀងផ្ទាត់ពី Admin"
+            const pendingOrder = {
                 date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 items: [...cart],
                 total: finalTotal,
-                downloadLinks: purchasedOrderLinks
+                status: '⏳ កំពុងរង់ចាំ Admin ពិនិត្យផ្ទៀងផ្ទាត់ប្រាក់...',
+                downloadLinks: []
             };
 
-            userOrders.unshift(newOrder);
+            userOrders.unshift(pendingOrder);
             localStorage.setItem(`myorders_v7_${userIdStr}`, JSON.stringify(userOrders));
 
             cart = [];
@@ -1113,7 +1107,7 @@
             closeCheckoutModal();
             renderProducts(document.getElementById('search-input')?.value || '');
 
-            alert('🎉 ការបញ្ជាទិញ និងវិក្កយបត្ររបស់អ្នកត្រូវបានបញ្ជូនជូន Admin ដោយសុវត្ថិភាព! អ្នកអាចពិនិត្យមើល Link ទាញយកនៅក្នុង Profile Tab របស់អ្នកផ្ទាល់បាន។');
+            alert('⏳ វិក្កយបត្រ និងការបញ្ជាទិញរបស់អ្នកត្រូវបានបញ្ជូនជូន Admin រួចរាល់! 🔗 Link ទាញយកនឹងបង្ហាញក្នុង Profile របស់អ្នក បន្ទាប់ពី Admin បានពិនិត្យនិងអនុម័តរួច។');
             switchTab('profile');
             renderOrderHistory();
         }
@@ -1131,7 +1125,9 @@
 
             historyListEl.innerHTML = '';
             userOrders.forEach(ord => {
+                let statusHtml = ord.status ? `<div class="text-[11px] text-yellow-400 font-semibold mt-1">${ord.status}</div>` : '';
                 let linksHtml = '';
+                
                 if (ord.downloadLinks && ord.downloadLinks.length > 0) {
                     ord.downloadLinks.forEach(l => {
                         linksHtml += `<div class="text-[11px] text-emerald-400 mt-1"><a href="${l.split(': ')[1]}" target="_blank" class="underline">${l}</a></div>`;
@@ -1147,9 +1143,10 @@
                             <span class="text-emerald-400 font-bold">$${ord.total.toFixed(2)}</span>
                         </div>
                         <p class="text-xs text-white font-bold">${itemsNames}</p>
+                        ${statusHtml}
                         <div class="pt-1 border-t border-zinc-800">
                             <p class="text-[10px] text-zinc-400 font-bold">លីងទាញយករបស់អ្នក៖</p>
-                            ${linksHtml}
+                            ${linksHtml || '<span class="text-[10px] text-zinc-500">គ្មានលីងបង្ហាញ (រង់ចាំការផ្ទៀងផ្ទាត់)</span>'}
                         </div>
                     </div>
                 `;
