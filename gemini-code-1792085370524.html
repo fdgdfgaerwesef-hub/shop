@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ហាងលក់វីដេអូ និងមាតិកាឌីជីថល VIP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDKs for Real-time Sync -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Kantumruy Pro', sans-serif; background-color: #000000; color: #ffffff; }
+
+        @keyframes glowing-border {
+            0% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.4), inset 0 0 5px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.6); }
+            50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), inset 0 0 10px rgba(239, 68, 68, 0.4); border-color: rgba(239, 68, 68, 1); }
+            100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.4), inset 0 0 5px rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.6); }
+        }
+        .glow-card { animation: glowing-border 2.5s infinite; }
+
+        @keyframes glowing-white {
+            0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.6); }
+            50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), inset 0 0 8px rgba(255, 255, 255, 0.5); border-color: rgba(255, 255, 255, 1); }
+            100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.4), inset 0 0 5px rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.6); }
+        }
+        .glow-white-btn { animation: glowing-white 2s infinite; border-width: 1px; }
+
+        @keyframes rainbow-glow {
+            0% { border-color: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.4); }
+            33% { border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.4); }
+            66% { border-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.8), 0 0 20px rgba(16, 185, 129, 0.4); }
+            100% { border-color: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.4); }
+        }
+        .cover-glow { animation: rainbow-glow 4s infinite; border-width: 2px; }
+
+        @keyframes bounce-emoji {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .emoji-anim { display: inline-block; animation: bounce-emoji 1.2s ease-in-out infinite; }
+
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .ticker-wrap { overflow: hidden; white-space: nowrap; }
+        .ticker-move { display: inline-block; animation: ticker 18s linear infinite; }
+    </style>
+</head>
+<body class="bg-black text-white pb-28">
+
+    <!-- Announcement Ticker -->
+    <div class="bg-red-600 text-white text-xs py-2 px-4 overflow-hidden relative shadow-md w-full">
+        <div class="ticker-wrap">
+            <span class="ticker-move font-medium">🎉 សូមស្វាគមន៍មកកាន់ហាងលក់វីឌីអូរ និងមាតិកា VIP! ប្រើប្រាស់កូដ <b class="underline">VIP10</b> បញ្ចុះតម្លៃ ១០% ⚡️ រាល់การបញ្ជាទិញត្រូវរង់ចាំ Admin ពិនិត្យវិក្កយបត្រជាមុនសិន! 🔥</span>
+        </div>
+    </div>
+
+    <!-- Header / Profile Top Bar -->
+    <header class="bg-black border-b border-red-900/50 p-4 shadow-md flex justify-between items-center sticky top-0 z-30">
+        <div>
+            <h1 class="font-bold text-base text-white">ហាងលក់វីឌីអូរ និងមាតិកាឌីជីថល VIP</h1>
+            <p class="text-[11px] text-red-400">Web Store Mode</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto p-4 space-y-4">
+
+        <!-- TAB 1: HOME / PRODUCTS -->
+        <section id="tab-home" class="space-y-4">
+            <div class="bg-gradient-to-r from-red-950 to-zinc-900 border border-red-600/60 p-3 rounded-2xl flex justify-between items-center shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                <div>
+                    <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">⚡ FLASH SALE</span>
+                    <h3 class="font-bold text-xs text-white pt-1">ការបញ្ចុះតម្លៃពិសេសនឹងបញ្ចប់ក្នុង៖</h3>
+                </div>
+                <div id="countdown-timer" class="text-red-400 font-mono font-bold text-sm bg-black px-3 py-1.5 rounded-xl border border-red-900">
+                    05 : 23 : 45
+                </div>
+            </div>
+
+            <div class="relative">
+                <input type="text" id="search-input" oninput="filterProducts()" placeholder="🔍 ស្វែងរកវីឌីអូរ, ចម្រៀង, រូបភាព ឬ Channel..." class="w-full bg-zinc-900 border border-red-900/60 rounded-2xl px-4 py-3 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-red-600 transition shadow-[0_0_10px_rgba(239,68,68,0.1)]">
+            </div>
+
+            <div class="flex space-x-2 overflow-x-auto pb-2">
+                <button onclick="switchCategory('songs')" id="cat-songs" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0 shadow-[0_0_12px_rgba(0,0,0,0.9)]">🎵 ចម្រៀង</button>
+                <button onclick="switchCategory('images')" id="cat-images" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0 shadow-[0_0_12px_rgba(0,0,0,0.9)]">🖼️ រូបភាព</button>
+                <button onclick="switchCategory('videos')" id="cat-videos" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0 shadow-[0_0_12px_rgba(0,0,0,0.9)]">🎬 វីឌីអូរ</button>
+                <button onclick="switchCategory('shorts')" id="cat-shorts" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0 shadow-[0_0_12px_rgba(0,0,0,0.9)]">📱 លក់ Video Short</button>
+                <button onclick="switchCategory('channels')" id="cat-channels" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0 shadow-[0_0_12px_rgba(0,0,0,0.9)]">📺 លក់ Channel</button>
+                <button onclick="switchCategory('chineseAI')" id="cat-chineseAI" class="cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0 shadow-[0_0_12px_rgba(0,0,0,0.9)]">🇨🇳 លក់រឿងចិន Ai</button>
+            </div>
+
+            <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-6"></div>
+        </section>
+
+        <!-- TAB 2: CART / CHECKOUT -->
+        <section id="tab-cart" class="hidden space-y-4 max-w-md mx-auto">
+            <h2 class="text-base font-bold text-white border-b border-red-900/50 pb-2">🛒 កន្ត្រកទំនិញ និងការទិញ</h2>
+            <div id="cart-items" class="space-y-3"></div>
+            
+            <div class="bg-zinc-900 border border-red-900/40 p-3 rounded-2xl space-y-2">
+                <div class="flex justify-between items-center text-xs text-zinc-400 px-1">
+                    <span>កូដប្រូម៉ូសិន៖ <b class="text-white">VIP10</b> (បញ្ចុះ ១០%)</span>
+                    <button onclick="copyPromoCode()" class="text-red-400 underline font-medium">📋 ចម្លងកូដ</button>
+                </div>
+                <div class="flex space-x-2">
+                    <input type="text" id="promo-code" placeholder="បញ្ចូលកូដបញ្ចុះតម្លៃ" class="flex-1 bg-black border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white uppercase placeholder-zinc-600 focus:outline-none focus:border-red-600">
+                    <button onclick="applyPromoCode()" class="bg-zinc-800 hover:bg-zinc-700 text-white px-4 py-2 rounded-xl text-xs font-medium border border-zinc-700 transition">ផ្ទៀងផ្ទាត់</button>
+                </div>
+            </div>
+
+            <div id="cart-summary" class="bg-zinc-900 border border-red-900/50 p-4 rounded-2xl space-y-3 hidden">
+                <div class="space-y-1 text-sm border-b border-zinc-800 pb-2">
+                    <div class="flex justify-between text-zinc-400 text-xs"><span>តម្លៃដើម៖</span> <span id="subtotal-price" class="text-emerald-400 font-semibold">$0.00</span></div>
+                    <div id="discount-row" class="flex justify-between text-red-400 text-xs hidden"><span>បញ្ចុះតម្លៃ (10%)៖</span> <span id="discount-price">-$0.00</span></div>
+                    <div class="flex justify-between font-bold text-white text-base pt-1"><span>សរុបទឹកប្រាក់៖</span> <span id="total-price" class="text-emerald-400">$0.00</span></div>
+                </div>
+                <button onclick="openCheckoutModal()" class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 rounded-xl shadow-[0_0_15px_rgba(239,68,68,0.6)] transition">
+                    ស្គេន QR Code ទូទាត់ប្រាក់ 💳
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 3: DOWNLOAD CENTER -->
+        <section id="tab-share" class="hidden space-y-4 max-w-lg mx-auto">
+            <div class="bg-zinc-900 border border-red-900/50 p-4 rounded-2xl space-y-3">
+                <div class="border-b border-zinc-800 pb-2">
+                    <h3 class="font-bold text-sm text-white flex items-center space-x-2">
+                        <span>📥</span> <span>មជ្ឈមណ្ឌលអត្ថបទ និងឯកសារទាញយក (Download Center)</span>
+                    </h3>
+                    <p class="text-[11px] text-zinc-400 pt-1">អានអត្ថបទ និងចុចប៊ូតុងទាញយកឯកសារ/មាតិកាឥតគិតថ្លៃ ឬសម្រាប់សមាជិក VIP!</p>
+                </div>
+
+                <div class="bg-black border border-zinc-800 p-3 rounded-xl space-y-2">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-white text-xs">ឯកសារមគ្គុទេសក៍ n8n Automation ឆ្នាំ 2026</h4>
+                        <span class="bg-emerald-950 text-emerald-400 text-[9px] px-2 py-0.5 rounded-full font-bold border border-emerald-800">Free PDF</span>
+                    </div>
+                    <p class="text-[11px] text-zinc-400 leading-relaxed">
+                        អត្ថបទណែនាំលម្អិតអំពីរបៀបតម្លើងប្រព័ន្ធស្វ័យប្រវត្តិកម្ម n8n ដើម្បីទាញយក និងផុសវីឌីអូចូលទៅកាន់ Facebook Pages ដោយស្វ័យប្រវត្តិ។
+                    </p>
+                    <div class="flex justify-end pt-1">
+                        <a href="https://t.me/San99098" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-xl text-[11px] font-medium transition shadow flex items-center space-x-1">
+                            <span>📥 ទាញយកឯកសារ (Download)</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PROFILE & ORDER HISTORY -->
+        <section id="tab-profile" class="hidden space-y-4 max-w-lg mx-auto">
+            <div class="bg-zinc-900 border border-red-900/50 p-6 rounded-2xl text-center space-y-3">
+                <div class="w-20 h-20 bg-red-950 text-red-500 rounded-full flex items-center justify-center text-3xl mx-auto font-bold border border-red-600 shadow-[0_0_15px_rgba(239,68,68,0.5)]">
+                    U
+                </div>
+                <h3 class="font-bold text-lg text-white">អតិថិជន (Web Store)</h3>
+                <a href="https://t.me/San99098" target="_blank" class="block w-full bg-zinc-800 hover:bg-zinc-700 text-emerald-400 py-2 rounded-lg text-xs font-bold transition border border-emerald-900/50">
+                    💬 ទាក់ទង Admin ជំនួយ
+                </a>
+            </div>
+
+            <!-- Order History & Download Link Section -->
+            <div class="bg-zinc-900 border border-red-900/50 p-4 rounded-2xl space-y-3">
+                <h4 class="font-bold text-white text-sm border-b border-zinc-800 pb-2">📦 ប្រវត្តិការបញ្ជាទិញ និងស្ថានភាពរង់ចាំ</h4>
+                <div id="order-history-list" class="space-y-3">
+                    <p class="text-xs text-zinc-500 text-center py-4">មិនទាន់មានប្រវត្តិទិញទំនិញនៅឡើយទេ។</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FULLSCREEN GLASSMORPHISM AUDIO MODAL -->
+    <div id="audio-modal" class="fixed inset-0 bg-black/80 backdrop-blur-xl hidden z-50 flex flex-col items-center justify-between p-6">
+        <div class="w-full max-w-md flex justify-between items-center border-b border-zinc-800/80 pb-4">
+            <span class="bg-red-600/85 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider">🎧 Audio Live Preview</span>
+            <button onclick="closeAudioModal()" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-300 hover:text-white text-xl font-bold transition">&times;</button>
+        </div>
+
+        <div class="w-full max-w-sm flex flex-col items-center space-y-6 text-center my-auto">
+            <div class="relative">
+                <div class="absolute -inset-2 bg-gradient-to-r from-red-600 via-blue-600 to-emerald-500 rounded-3xl blur-xl opacity-70 animate-pulse"></div>
+                <img id="modal-cover-img" src="" alt="Cover Art" class="w-64 h-64 rounded-3xl object-cover cover-glow relative">
+            </div>
+
+            <div class="space-y-2 w-full">
+                <h2 id="modal-song-title" class="font-bold text-lg text-white tracking-wide"></h2>
+                <p id="modal-song-desc" class="text-xs text-red-400 font-medium"></p>
+            </div>
+
+            <div class="w-full space-y-1">
+                <input type="range" id="audio-seek-bar" value="0" min="0" max="100" step="0.1" 
+                    class="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-red-600 focus:outline-none">
+                <div class="flex justify-between text-[11px] text-zinc-400 font-mono">
+                    <span id="audio-current-time">00:00</span>
+                    <span id="audio-duration">00:00</span>
+                </div>
+            </div>
+
+            <audio id="active-audio-player" class="hidden"></audio>
+        </div>
+
+        <div class="w-full max-w-md bg-zinc-900/90 border border-red-900/50 p-4 rounded-3xl backdrop-blur-md shadow-2xl flex items-center justify-around">
+            <button onclick="togglePlayPause()" id="modal-play-btn" class="w-16 h-16 bg-red-600 hover:bg-red-700 text-white rounded-full flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(239,68,68,0.8)] transition transform active:scale-95">
+                ⏸️
+            </button>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN VIDEO PREVIEW MODAL -->
+    <div id="video-modal" class="fixed inset-0 bg-black/95 backdrop-blur-xl hidden z-50 flex flex-col justify-between p-4">
+        <div class="w-full max-w-4xl mx-auto flex justify-between items-center border-b border-zinc-800 pb-3">
+            <span class="bg-red-600 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider">🎬 Video Live Preview</span>
+            <button onclick="closeVideoModal()" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-300 hover:text-white text-xl font-bold transition">&times;</button>
+        </div>
+
+        <div class="w-full h-full overflow-hidden flex flex-col items-center justify-center p-2 my-auto space-y-3">
+            <h2 id="modal-video-title" class="font-bold text-sm text-white tracking-wide"></h2>
+            <video id="active-video-player" controls class="max-h-[65vh] max-w-full rounded-xl shadow-2xl border border-zinc-800"></video>
+        </div>
+
+        <div class="w-full max-w-md mx-auto text-center space-y-2">
+            <button onclick="closeVideoModal()" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 rounded-2xl border border-zinc-700 transition text-xs">
+                បិទផ្ទាំងមើលវីឌីអូរ ✕
+            </button>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN IMAGE PREVIEW MODAL -->
+    <div id="image-modal" class="fixed inset-0 bg-black/95 backdrop-blur-xl hidden z-50 flex flex-col justify-between p-4">
+        <div class="w-full max-w-4xl mx-auto flex justify-between items-center border-b border-zinc-800 pb-3">
+            <span class="bg-blue-600 text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-wider">🖼️ Full Size Image Preview</span>
+            <button onclick="closeImageModal()" class="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-zinc-300 hover:text-white text-xl font-bold transition">&times;</button>
+        </div>
+
+        <div class="w-full h-full overflow-auto flex items-center justify-center p-2 my-auto">
+            <img id="preview-full-img" src="" alt="Full Preview" class="max-w-none object-contain rounded-xl shadow-2xl border border-zinc-800">
+        </div>
+
+        <div class="w-full max-w-md mx-auto text-center space-y-2">
+            <h2 id="preview-img-title" class="font-bold text-sm text-white tracking-wide"></h2>
+            <button onclick="closeImageModal()" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 rounded-2xl border border-zinc-700 transition text-xs">
+                បិទផ្ទាំងមើលរូបភាព ✕
+            </button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL (QR CODE PAYMENT & UPLOAD SLIP FORM) -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-zinc-900 border border-emerald-600 w-full max-w-sm rounded-3xl p-6 space-y-4 shadow-[0_0_25px_rgba(16,185,129,0.4)] relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+                <h3 class="font-bold text-white text-sm">💳 ទូទាត់ប្រាក់ & បញ្ជូនវិក្កយបត្រ</h3>
+                <button onclick="closeCheckoutModal()" class="text-zinc-400 hover:text-white font-bold text-lg">&times;</button>
+            </div>
+            
+            <div class="text-center space-y-2 py-1">
+                <p class="text-base font-bold text-white" id="modal-total-price">សរុបត្រូវបង់៖ $0.00</p>
+                <div class="bg-white p-3 rounded-2xl inline-block shadow-md">
+                    <img src="https://i.ibb.co/6JG93y5F/Changing-Korean-actress-hair-clo-20260915200120.jpg" alt="KHQR Payment" class="w-36 h-36 object-cover mx-auto rounded-lg">
+                </div>
+            </div>
+
+            <!-- Form សម្រាប់អតិថិជនបំពេញព័ត៌មាន និង Upload Slip -->
+            <div class="space-y-3 pt-1">
+                <div>
+                    <label class="block text-[11px] text-zinc-300 mb-1">ឈ្មោះ និង Telegram Username របស់អ្នក៖</label>
+                    <input type="text" id="customer-telegram" placeholder="ឧទាហរណ៍: @sann_dev ឬ ឈ្មោះអ្នក" class="w-full bg-black border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] text-zinc-300 mb-1">Upload រូបភាពវិក្កយបត្រ (Slip បង់ប្រាក់)៖</label>
+                    <input type="file" id="slip-file" accept="image/*" class="w-full text-xs text-zinc-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700 cursor-pointer bg-black border border-zinc-800 rounded-xl p-1">
+                </div>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <button onclick="submitOrderToServer()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl text-xs shadow-[0_0_15px_rgba(16,185,129,0.5)] transition flex items-center justify-center space-x-1">
+                    <span>បញ្ជាក់ការទិញ និងផ្ញើ Slip 🚀</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVBAR -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-black border-t border-zinc-800 shadow-lg flex justify-around py-3 px-2 z-40 max-w-4xl mx-auto">
+        <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center justify-center w-16 h-14 rounded-2xl bg-zinc-900 text-white glow-white-btn transition relative shadow-[0_0_15px_rgba(255,255,255,0.6)]">
+            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span class="text-[10px] mt-1 font-medium">ទំព័រដើម</span>
+        </button>
+        <button onclick="switchTab('cart')" id="nav-cart" class="flex flex-col items-center justify-center w-16 h-14 rounded-2xl bg-zinc-900/90 text-zinc-400 hover:text-white glow-white-btn transition relative">
+            <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            <span class="text-[10px] mt-1 font-medium">ការទិញ</span>
+            <span id="cart-badge" class="absolute top-1 right-2 bg-red-600 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold hidden shadow">0</span>
+        </button>
+        <button onclick="switchTab('share')" id="nav-share" class="flex flex-col items-center justify-center w-16 h-14 rounded-2xl bg-zinc-900/90 text-zinc-400 hover:text-white glow-white-btn transition">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span class="text-[10px] mt-1 font-medium">ទាញយក</span>
+        </button>
+        <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center justify-center w-16 h-14 rounded-2xl bg-zinc-900/90 text-zinc-400 hover:text-white glow-white-btn transition">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a2 2 0 00-7-7z"/></svg>
+            <span class="text-[10px] mt-1 font-medium">Profile</span>
+        </button>
+    </nav>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8tyZvLPqUnyYug32CqPsqFuWffUzi3B8",
+            authDomain: "vip-digital-store.firebaseapp.com",
+            databaseURL: "https://vip-digital-store-default-rtdb.firebaseio.com",
+            projectId: "vip-digital-store",
+            storageBucket: "vip-digital-store.firebasestorage.app",
+            messagingSenderId: "1052554304690",
+            appId: "1:1052554304690:web:7148dac3ffa19c8ab67dab"
+        };
+        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+        const db = firebase.database();
+
+        // 🔗 Backend Server URL (Localhost សម្រាប់តេស្តពេល Run server.js)
+        const BACKEND_URL = 'http://localhost:3000/api/send-order';
+
+        // --- ផលិតផលពេញលេញគ្រប់ Category ---
+        const defaultProductsData = {
+            songs: [
+                {
+                    id: 'edm_mix_1',
+                    name: 'Afro House Mix | EDM',
+                    desc: 'Electronic Dance Music - EDM កម្រិត Studio Master',
+                    img: 'https://i.ibb.co/zzDMn29/thumbnail-1.jpg',
+                    previews: [
+                        { name: 'ស្តាប់បទទី 1', url: 'https://coming-blue-1gob4i1q.edgeone.dev/' },
+                        { name: 'ស្តាប់បទទី 2', url: 'https://invisible-gray-mr6arlnw.edgeone.dev/' }
+                    ],
+                    packages: [
+                        { id: 'edm_100', name: 'កញ្ចប់ 100 បទ', price: 2.50, stock: 5, tag: '🔥' },
+                        { id: 'edm_500', name: 'កញ្ចប់ 500 បទ', price: 7.00, stock: 2, tag: '🌟' }
+                    ]
+                }
+            ],
+            images: [
+                {
+                    id: 'img_catch_fish_1',
+                    name: 'រូបភាពចាប់ត្រី',
+                    desc: 'រូបភាពគុណភាពខ្ពស់សម្រាប់ប្រើប្រាស់ជាមាតិកាឌីជីថល',
+                    img: 'https://i.ibb.co/ZzcX3zWT/Pic-159.jpg',
+                    packages: [
+                        { id: 'img_fish_100', name: 'កញ្ចប់ 100 រូបភាព', price: 2.50, stock: 2, tag: '🎣' },
+                        { id: 'img_fish_500', name: 'កញ្ចប់ 500 រូបភាព', price: 5.00, stock: 2, tag: '🖼️' }
+                    ]
+                }
+            ],
+            videos: [
+                {
+                    id: 'video_relix_fish_new',
+                    name: 'Relix Fish Video (សុទ្ធ)',
+                    desc: 'Relix Video មានរយះពេល ១០វិនាទី',
+                    img: 'https://i.ibb.co/N21C4gM1/image.png',
+                    previewUrl: 'https://videotourl.com/videos/1791484693888-88c86f92-fd9f-40d6-815a-22751c9d6d7d.mp4',
+                    packages: [
+                        { id: 'relix_fish_81', name: 'កញ្ចប់ 81 វីឌីអូរ', price: 5.00, stock: 1, tag: '🎬' }
+                    ]
+                }
+            ],
+            shorts: [
+                {
+                    id: 'short_item_demo_1',
+                    name: 'កញ្ចប់ Video Short ពេញនិយម',
+                    desc: 'វីដេអូខ្លីៗត្រៀមសម្រាប់បង្ហោះ TikTok / Reels / Shorts',
+                    img: 'https://i.ibb.co/WvmWNjVT/gg5435.png',
+                    previewUrl: 'https://videotourl.com/videos/1791397843518-13c7f36b-743c-4ed1-a8e2-2f01d8d9069b.mp4',
+                    packages: [
+                        { id: 'short_pkg_demo_100', name: 'កញ្ចប់ 100 Shorts', price: 3.00, stock: 5, tag: '📱' }
+                    ]
+                }
+            ],
+            chineseAI: [
+                {
+                    id: 'chinese_ai_demo_1',
+                    name: 'រឿងចិន AI ភាគពេញ',
+                    desc: 'មាតិការឿងចិនបង្កើតដោយ AI ដ៏ជក់ចិត្តដិតអារម្មណ៍',
+                    img: 'https://i.ibb.co/ZzcX3zWT/Pic-159.jpg',
+                    previewUrl: 'https://videotourl.com/videos/1791484693888-88c86f92-fd9f-40d6-815a-22751c9d6d7d.mp4',
+                    packages: [
+                        { id: 'chinese_pkg_demo_10', name: 'កញ្ចប់ 10 រឿង', price: 5.00, stock: 3, tag: '🇨🇳' }
+                    ]
+                }
+            ],
+            channels: [
+                {
+                    id: 'channel_demo_1',
+                    name: 'YouTube Channel ត្រៀមលក់',
+                    desc: 'Channel ហ្ស៊ីន ស្របតាមស្តង់ដារ',
+                    img: 'https://i.ibb.co/zzDMn29/thumbnail-1.jpg',
+                    packages: [
+                        { id: 'channel_pkg_demo_1', name: '1 Channel ត្រៀម monetization', price: 15.00, stock: 2, tag: '📺' }
+                    ]
+                }
+            ]
+        };
+
+        let products = JSON.parse(JSON.stringify(defaultProductsData));
+        let currentCategory = 'videos';
+        let cart = [];
+        let discountApplied = false;
+        let calculatedFinalTotal = 0;
+        let userOrders = JSON.parse(localStorage.getItem('my_web_orders')) || [];
+
+        db.ref('store_products').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                products = data;
+            } else {
+                db.ref('store_products').set(defaultProductsData);
+                products = JSON.parse(JSON.stringify(defaultProductsData));
+            }
+            renderProducts(document.getElementById('search-input')?.value || '');
+            renderCart();
+        });
+
+        function renderProducts(filterText = '') {
+            const listEl = document.getElementById('product-list');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+            
+            let itemsToDisplay = products[currentCategory] || [];
+            if (filterText.trim() !== '') {
+                const allItems = [...(products.songs || []), ...(products.images || []), ...(products.videos || []), ...(products.shorts || []), ...(products.chineseAI || []), ...(products.channels || [])];
+                itemsToDisplay = allItems.filter(p => p.name.toLowerCase().includes(filterText.toLowerCase()) || p.desc.toLowerCase().includes(filterText.toLowerCase()));
+            }
+
+            if (itemsToDisplay.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-zinc-500 text-center py-8 col-span-full">រកមិនឃើញផលិតផលដែលអ្នកចង់បានទេ</p>`;
+                return;
+            }
+
+            itemsToDisplay.forEach(item => {
+                let previewButtonsHTML = '';
+                if (item.previews && item.previews.length > 0) {
+                    item.previews.forEach((prev) => {
+                        previewButtonsHTML += `
+                            <button onclick="openAudioModal('${prev.url}', '${item.name} (${prev.name})', '${item.img}')" class="bg-zinc-800 hover:bg-zinc-700 text-red-400 px-2.5 py-1 rounded-xl text-[10px] font-medium border border-red-900/60 transition flex items-center space-x-1 shadow">
+                                <span>🎵 ${prev.name}</span>
+                            </button>
+                        `;
+                    });
+                } else if (currentCategory === 'images' || item.id.startsWith('img_')) {
+                    previewButtonsHTML = `
+                        <button onclick="openImageModal('${item.img}', '${item.name}')" class="bg-zinc-800 hover:bg-zinc-700 text-blue-400 px-3 py-1.5 rounded-xl text-[11px] font-medium border border-blue-900/60 transition flex items-center space-x-1 shadow">
+                            <span>🔍 តេស្តមើលរូបភាព</span>
+                        </button>
+                    `;
+                } else if (item.previewUrl) {
+                    previewButtonsHTML = `
+                        <button onclick="openVideoModal('${item.previewUrl}', '${item.name}')" class="bg-zinc-800 hover:bg-zinc-700 text-red-400 px-3 py-1.5 rounded-xl text-[11px] font-medium border border-red-900/60 transition flex items-center space-x-1 shadow">
+                            <span>🎬 តេស្តមើលវីឌីអូរ</span>
+                        </button>
+                    `;
+                }
+
+                let pkgOptionsHTML = '';
+                if (item.packages) {
+                    item.packages.forEach(pkg => {
+                        pkgOptionsHTML += `
+                            <div class="flex items-center justify-between bg-black/40 border border-zinc-800 p-2 rounded-xl mt-1.5">
+                                <div>
+                                    <span class="emoji-anim text-sm mr-1">${pkg.tag || '📦'}</span>
+                                    <span class="text-xs text-white font-bold">${pkg.name}</span>
+                                    <span class="text-xs font-bold text-emerald-400 ml-2">$${pkg.price.toFixed(2)}</span>
+                                </div>
+                                <button onclick="addToCart('${currentCategory}', '${item.id}', '${pkg.id}')" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-medium transition">🛒 ទិញ</button>
+                            </div>
+                        `;
+                    });
+                }
+
+                listEl.innerHTML += `
+                    <div class="bg-zinc-900 border border-red-600/70 p-4 rounded-2xl space-y-3 glow-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-start space-x-3">
+                                <img src="${item.img}" class="w-16 h-16 rounded-xl object-cover border-2 border-red-500/80 shadow">
+                                <div class="space-y-1 flex-1">
+                                    <h4 class="font-bold text-sm text-white">${item.name}</h4>
+                                    <p class="text-xs text-zinc-400 line-clamp-1">${item.desc}</p>
+                                    <div class="flex flex-wrap gap-1.5 pt-0.5">${previewButtonsHTML}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t border-zinc-800 pt-2 space-y-1">
+                            <p class="text-[11px] font-bold text-white">ជ្រើសរើសកញ្ចប់ផលិតផល៖</p>
+                            ${pkgOptionsHTML}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProducts() {
+            const query = document.getElementById('search-input').value;
+            renderProducts(query);
+        }
+
+        // --- PREVIEW MODALS ---
+        const audioModal = document.getElementById('audio-modal');
+        const activeAudioPlayer = document.getElementById('active-audio-player');
+        function openAudioModal(url, title, img) {
+            document.getElementById('modal-song-title').innerText = title;
+            document.getElementById('modal-cover-img').src = img;
+            activeAudioPlayer.src = url;
+            activeAudioPlayer.play().catch(e => console.log(e));
+            audioModal.classList.remove('hidden');
+        }
+        function closeAudioModal() { activeAudioPlayer.pause(); audioModal.classList.add('hidden'); }
+        function togglePlayPause() {
+            if (activeAudioPlayer.paused) activeAudioPlayer.play();
+            else activeAudioPlayer.pause();
+        }
+
+        const videoModal = document.getElementById('video-modal');
+        const activeVideoPlayer = document.getElementById('active-video-player');
+        function openVideoModal(url, title) {
+            document.getElementById('modal-video-title').innerText = title;
+            activeVideoPlayer.src = url;
+            activeVideoPlayer.play().catch(e => console.log(e));
+            videoModal.classList.remove('hidden');
+        }
+        function closeVideoModal() { activeVideoPlayer.pause(); videoModal.classList.add('hidden'); }
+
+        const imageModal = document.getElementById('image-modal');
+        function openImageModal(url, title) {
+            document.getElementById('preview-full-img').src = url;
+            document.getElementById('preview-img-title').innerText = title;
+            imageModal.classList.remove('hidden');
+        }
+        function closeImageModal() { imageModal.classList.add('hidden'); }
+
+        function switchCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-black border border-white transition shrink-0";
+            });
+            document.getElementById(`cat-${cat}`).className = "cat-btn px-4 py-2 rounded-xl text-xs font-semibold bg-red-600 text-white transition shrink-0";
+            renderProducts();
+        }
+
+        function addToCart(catKey, itemId, pkgId) {
+            const item = products[catKey].find(s => s.id === itemId);
+            const pkg = item.packages.find(p => p.id === pkgId);
+            const cartId = `${itemId}_${pkgId}`;
+            const existing = cart.find(c => c.cartId === cartId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ cartId, name: `${item.name} (${pkg.name})`, price: pkg.price, quantity: 1 });
+            }
+            updateCartBadge();
+            renderCart();
+            alert('បានបន្ថែមចូលកន្ត្រកជោគជ័យ!');
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (totalQty > 0) {
+                badge.innerText = totalQty;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function copyPromoCode() { navigator.clipboard.writeText('VIP10'); alert('📋 បានចម្លងកូដ VIP10!'); }
+        function applyPromoCode() {
+            const code = document.getElementById('promo-code').value.trim().toUpperCase();
+            if (code === 'VIP10') { discountApplied = true; alert('✅ ដាក់បញ្ចូលកូដបញ្ចុះតម្លៃ ១០% ជោគជ័យ!'); }
+            else { discountApplied = false; alert('❌ កូដមិនត្រឹមត្រូវ!'); }
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartItemsEl = document.getElementById('cart-items');
+            const summaryEl = document.getElementById('cart-summary');
+            cartItemsEl.innerHTML = '';
+
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = `<p class="text-center py-12 text-zinc-500 text-xs">កន្ត្រកទំនិញទំនេរ</p>`;
+                summaryEl.classList.add('hidden');
+                return;
+            }
+
+            summaryEl.classList.remove('hidden');
+            let subtotal = 0;
+            cart.forEach(item => {
+                let sub = item.price * item.quantity;
+                subtotal += sub;
+                cartItemsEl.innerHTML += `
+                    <div class="bg-zinc-900 border border-zinc-800 p-3 rounded-xl flex justify-between items-center text-xs">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span class="text-emerald-400 font-bold">$${sub.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            let discount = discountApplied ? subtotal * 0.10 : 0;
+            calculatedFinalTotal = subtotal - discount;
+
+            document.getElementById('subtotal-price').innerText = `$${subtotal.toFixed(2)}`;
+            if (discountApplied) {
+                document.getElementById('discount-row').classList.remove('hidden');
+                document.getElementById('discount-price').innerText = `-$${discount.toFixed(2)}`;
+            }
+            document.getElementById('total-price').innerText = `$${calculatedFinalTotal.toFixed(2)}`;
+            document.getElementById('modal-total-price').innerText = `សរុបត្រូវបង់៖ $${calculatedFinalTotal.toFixed(2)}`;
+        }
+
+        function openCheckoutModal() { document.getElementById('checkout-modal').classList.remove('hidden'); }
+        function closeCheckoutModal() { document.getElementById('checkout-modal').classList.add('hidden'); }
+
+        // 🚀 បញ្ជូនទិន្នន័យ និង Slip ទៅ Server
+        function submitOrderToServer() {
+            const customerInfo = document.getElementById('customer-telegram').value.trim();
+            const slipFile = document.getElementById('slip-file').files[0];
+
+            if (!customerInfo) { alert('សូមបញ្ចូលឈ្មោះ ឬ Telegram Username របស់អ្នក!'); return; }
+            if (!slipFile) { alert('សូម Upload រូបភាព Slip បង់ប្រាក់!'); return; }
+
+            let orderItemsText = cart.map(i => `• ${i.name} (ចំនួន: ${i.quantity}) - $${(i.price * i.quantity).toFixed(2)}`).join('\n');
+            let messageText = `💳 <b>មានការបញ្ជាទិញថ្មីពី Website!</b>\n\n👤 អតិថិជន: ${customerInfo}\n\n📦 <b>ទំនិញ៖</b>\n${orderItemsText}\n\n💰 <b>សរុបទឹកប្រាក់៖</b> $${calculatedFinalTotal.toFixed(2)}`;
+
+            let formData = new FormData();
+            formData.append('customer_info', customerInfo);
+            formData.append('message', messageText);
+            formData.append('total_amount', calculatedFinalTotal);
+            formData.append('slip', slipFile);
+
+            alert('⏳ កំពុងបញ្ជូនទិន្នន័យ...');
+
+            fetch(BACKEND_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ ការបញ្ជាទិញនិង Slip ត្រូវបានបញ្ជូនជូន Admin ជោគជ័យ!');
+                    userOrders.unshift({ date: new Date().toLocaleString(), items: [...cart], total: calculatedFinalTotal });
+                    localStorage.setItem('my_web_orders', JSON.stringify(userOrders));
+                    cart = [];
+                    discountApplied = false;
+                    updateCartBadge();
+                    renderCart();
+                    closeCheckoutModal();
+                    switchTab('profile');
+                    renderOrderHistory();
+                } else {
+                    alert('❌ មានបញ្ហា៖ ' + data.error);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('⚠️ មិនអាចតភ្ជាប់ទៅកាន់ Server បានទេ! (សូមប្រាកដថាបាន Run server.js ហើយ)');
+            });
+        }
+
+        function renderOrderHistory() {
+            const historyListEl = document.getElementById('order-history-list');
+            if (userOrders.length === 0) return;
+            historyListEl.innerHTML = '';
+            userOrders.forEach(ord => {
+                let itemsNames = ord.items.map(i => i.name).join(', ');
+                historyListEl.innerHTML += `
+                    <div class="bg-black border border-zinc-800 p-3 rounded-xl space-y-1 text-xs">
+                        <div class="flex justify-between text-zinc-400"><span>📅 ${ord.date}</span><span class="text-emerald-400 font-bold">$${ord.total.toFixed(2)}</span></div>
+                        <p class="text-white font-bold">${itemsNames}</p>
+                        <p class="text-yellow-400">⏳ រង់ចាំ Admin ពិនិត្យផ្ទៀងផ្ទាត់...</p>
+                    </div>
+                `;
+            });
+        }
+
+        function switchTab(tab) {
+            ['home', 'cart', 'share', 'profile'].forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden'));
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            if (tab === 'profile') renderOrderHistory();
+        }
+
+        switchCategory('videos');
+    </script>
+</body>
+</html>
